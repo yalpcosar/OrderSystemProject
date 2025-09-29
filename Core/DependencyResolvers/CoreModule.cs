@@ -22,7 +22,7 @@ namespace Core.DependencyResolvers
         public void Load(IServiceCollection services, IConfiguration configuration)
         {
             services.AddMemoryCache();
-            services.AddSingleton<ICacheManager, RedisCacheManager>();
+            services.AddSingleton<ICacheManager, MemoryCacheManager>();
             services.AddSingleton<IMailService, MailManager>();
             services.AddSingleton<IEmailConfiguration, EmailConfiguration>();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
