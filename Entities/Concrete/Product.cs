@@ -14,7 +14,7 @@ namespace Entities.Concrete
         public int ColorId { get; set; }
         public ESize Size { get; set; }
 
-        public virtual Color Color { get; set; }
+        public virtual PColor PColor { get; set; }
         public virtual Warehouse Warehouse { get; set; }
     }
 }

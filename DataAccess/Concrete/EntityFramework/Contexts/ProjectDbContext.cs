@@ -1,6 +1,8 @@
 using System;
+using System.Drawing;
 using System.Reflection;
 using Core.Entities.Concrete;
+using Entities.Concrete;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -49,6 +51,12 @@ namespace DataAccess.Concrete.EntityFramework.Contexts
         public DbSet<MobileLogin> MobileLogins { get; set; }
         public DbSet<Language> Languages { get; set; }
         public DbSet<Translate> Translates { get; set; }
+        public DbSet<Customer> Customers { get; set; }
+        public DbSet<Order> Orders { get; set; }
+        public DbSet<PColor> PColors { get; set; }
+        public DbSet<Product> Products { get; set; }
+        public DbSet<Warehouse> Warehouses { get; set; }
+
 
         protected IConfiguration Configuration { get; }
 
