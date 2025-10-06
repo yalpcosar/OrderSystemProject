@@ -7,9 +7,11 @@ using System.Threading.Tasks;
 
 namespace Entities.Concrete
 {
-    public class Color: BaseEntity
+    public class PColor: BaseEntity
     {
        public string Name { get; set; }
        public string HexCode { get; set; }
+
+       public virtual ICollection<Product> Products { get; set; }
     }
 }

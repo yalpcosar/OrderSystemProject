@@ -16,5 +16,6 @@ namespace Entities.Concrete
 
         public virtual PColor PColor { get; set; }
         public virtual Warehouse Warehouse { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }
