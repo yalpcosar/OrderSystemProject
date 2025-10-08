@@ -7,6 +7,11 @@
     <PropertyGroup>
         <CodeAnalysisRuleSet>$(SolutionDir)\shared\DevArchitectureCodeAnalysis.ruleset</CodeAnalysisRuleSet>
     </PropertyGroup>
+    <ItemGroup>
+      <Compile Remove="Handlers\ds\**" />
+      <EmbeddedResource Remove="Handlers\ds\**" />
+      <None Remove="Handlers\ds\**" />
+    </ItemGroup>
         <ItemGroup>
           <Compile Remove="Helpers\EnumerableExtensions.cs" />
         </ItemGroup>
