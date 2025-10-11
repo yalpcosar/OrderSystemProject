@@ -63,8 +63,28 @@ describe('ColorListComponent', () => {
 
   beforeEach(() => {
     const mockColors = [
-      { id: 1, name: 'Red', code: '#FF0000' },
-      { id: 2, name: 'Blue', code: '#0000FF' }
+      { 
+        id: 1, 
+        name: 'Red', 
+        hexCode: '#FF0000',
+        createdUserId: 1,
+        createdDate: new Date(),
+        lastUpdatedUserId: 1,
+        lastUpdatedDate: new Date(),
+        status: true,
+        isDeleted: false
+      },
+      { 
+        id: 2, 
+        name: 'Blue', 
+        hexCode: '#0000FF',
+        createdUserId: 1,
+        createdDate: new Date(),
+        lastUpdatedUserId: 1,
+        lastUpdatedDate: new Date(),
+        status: true,
+        isDeleted: false
+      }
     ];
     mockColorService.getColorList.and.returnValue(of(mockColors));
   });
@@ -81,8 +101,28 @@ describe('ColorListComponent', () => {
   it('should apply filter correctly', () => {
     const mockEvent = { target: { value: 'red' } } as any;
     component.dataSource = new MatTableDataSource([
-      { id: 1, name: 'Red', code: '#FF0000' },
-      { id: 2, name: 'Blue', code: '#0000FF' }
+      { 
+        id: 1, 
+        name: 'Red', 
+        hexCode: '#FF0000',
+        createdUserId: 1,
+        createdDate: new Date(),
+        lastUpdatedUserId: 1,
+        lastUpdatedDate: new Date(),
+        status: true,
+        isDeleted: false
+      },
+      { 
+        id: 2, 
+        name: 'Blue', 
+        hexCode: '#0000FF',
+        createdUserId: 1,
+        createdDate: new Date(),
+        lastUpdatedUserId: 1,
+        lastUpdatedDate: new Date(),
+        status: true,
+        isDeleted: false
+      }
     ]);
     
     component.applyFilter(mockEvent);

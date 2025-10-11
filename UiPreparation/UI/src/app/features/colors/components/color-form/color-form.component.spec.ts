@@ -68,7 +68,7 @@ describe('ColorFormComponent', () => {
 
   it('should validate code format', () => {
     component.ngOnInit();
-    const codeControl = component.colorForm.get('code');
+    const codeControl = component.colorForm.get('hexCode');
     
     codeControl?.setValue('#FF0000');
     expect(codeControl?.valid).toBeTruthy();
@@ -88,7 +88,17 @@ describe('ColorFormComponent', () => {
 
   it('should be in edit mode when id provided', () => {
     mockActivatedRoute.snapshot.paramMap.get.and.returnValue('1');
-    const mockColor = { id: 1, name: 'Red', code: '#FF0000' };
+    const mockColor = { 
+      id: 1, 
+      name: 'Red', 
+      hexCode: '#FF0000',
+      createdUserId: 1,
+      createdDate: new Date(),
+      lastUpdatedUserId: 1,
+      lastUpdatedDate: new Date(),
+      status: true,
+      isDeleted: false
+    };
     mockColorService.getColorById.and.returnValue(of(mockColor));
     
     component.ngOnInit();
@@ -105,9 +115,9 @@ describe('ColorFormComponent', () => {
 
   it('should get error message for pattern validation', () => {
     component.ngOnInit();
-    const codeControl = component.colorForm.get('code');
+    const codeControl = component.colorForm.get('hexCode');
     codeControl?.setValue('invalid');
     codeControl?.markAsTouched();
-    expect(component.getErrorMessage('code')).toBe('code must be a valid hex color code (e.g., #FF0000 or #F00)');
+    expect(component.getErrorMessage('hexCode')).toBe('hexCode must be a valid hex color code (e.g., #FF0000 or #F00)');
   });
 });
