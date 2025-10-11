@@ -25,7 +25,7 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'log',            component: LogDtoComponent,canActivate:[LoginGuard]},
     { 
       path: 'colors', 
-      loadChildren: () => import('../../../features/colors/colors.module').then(m => m.ColorsModule),
+      loadChildren: () => import('app/features/colors/colors.module').then(m => m.ColorsModule),
       canActivate: [LoginGuard]
     }
     
