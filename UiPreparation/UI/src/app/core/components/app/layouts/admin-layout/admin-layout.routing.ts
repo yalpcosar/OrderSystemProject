@@ -27,6 +27,11 @@ export const AdminLayoutRoutes: Routes = [
       path: 'colors', 
       loadChildren: () => import('app/features/colors/colors.module').then(m => m.ColorsModule),
       canActivate: [LoginGuard]
+    },
+    { 
+      path: 'customers', 
+      loadChildren: () => import('app/features/customers/customers.module').then(m => m.CustomersModule),
+      canActivate: [LoginGuard]
     }
     
 ];

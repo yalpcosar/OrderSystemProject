@@ -1,0 +1,60 @@
+.status-active {
+  color: #4caf50;
+  font-weight: 500;
+}
+
+.status-inactive {
+  color: #f44336;
+  font-weight: 500;
+}
+
+.text-muted {
+  color: #6c757d;
+  font-style: italic;
+}
+
+.mat-elevation-z8 {
+  box-shadow: 0 5px 5px -3px rgba(0,0,0,.2), 0 8px 10px 1px rgba(0,0,0,.14), 0 3px 14px 2px rgba(0,0,0,.12);
+}
+
+.card-header-danger {
+  background: linear-gradient(60deg, #ef5350, #e53935);
+  box-shadow: 0 4px 20px 0px rgba(0, 0, 0, 0.14), 0 7px 10px -5px rgba(244, 67, 54, 0.4);
+}
+
+.pull-right {
+  float: right;
+}
+
+.mr-2 {
+  margin-right: 0.5rem;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.mat-form-field {
+  width: 100%;
+}
+
+.mat-icon-button {
+  margin: 0 4px;
+}
+
+.card-title {
+  color: white;
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 500;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  border-color: #004085;
+}
