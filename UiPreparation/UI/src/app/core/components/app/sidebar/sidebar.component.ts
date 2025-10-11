@@ -19,7 +19,8 @@ export const ADMINROUTES: RouteInfo[] = [
   { path: '/operationclaim', title: 'OperationClaim', icon:'local_police', class: '', claim:"GetOperationClaimsQuery"},
   { path: '/language', title: 'Languages', icon:'language', class: '', claim:"GetLanguagesQuery" },
   { path: '/translate', title: 'TranslateWords', icon: 'translate', class: '', claim: "GetTranslatesQuery" },
-  { path: '/log', title: 'Logs', icon: 'update', class: '', claim: "GetLogDtoQuery" }
+  { path: '/log', title: 'Logs', icon: 'update', class: '', claim: "GetLogDtoQuery" },
+  { path: '/colors', title: 'Colors', icon: 'palette', class: '', claim: "GetPColorsQuery" }
 ];
 
 export const USERROUTES: RouteInfo[] = [ 

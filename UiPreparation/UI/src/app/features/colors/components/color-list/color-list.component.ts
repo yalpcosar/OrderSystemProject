@@ -8,7 +8,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
-import { PColor } from '../../../../core/components/admin/pcolor/models/PColor';
+import { Color } from '../../../../core/models/color.model';
 import { PColorService } from '../../../../core/components/admin/pcolor/services/PColor.service';
 import { AlertifyService } from '../../../../core/services/alertify.service';
 
@@ -18,18 +18,18 @@ import { AlertifyService } from '../../../../core/services/alertify.service';
   styleUrls: ['./color-list.component.scss']
 })
 export class ColorListComponent implements OnInit, AfterViewInit {
-  dataSource: MatTableDataSource<PColor>;
+  dataSource: MatTableDataSource<Color>;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
   displayedColumns: string[] = [
     'id',
     'name',
-    'code',
+    'hexCode',
     'actions'
   ];
 
-  colorList: PColor[] = [];
+  colorList: Color[] = [];
 
   constructor(
     private colorService: PColorService,
@@ -47,7 +47,7 @@ export class ColorListComponent implements OnInit, AfterViewInit {
 
   getColorList(): void {
     this.colorService.getColorList().subscribe({
-      next: (data) => {
+      next: (data: Color[]) => {
         this.colorList = data;
         this.dataSource = new MatTableDataSource(data);
         this.configDataTable();

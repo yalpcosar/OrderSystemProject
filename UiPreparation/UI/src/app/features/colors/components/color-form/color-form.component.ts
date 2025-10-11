@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PColor } from '../../../../core/components/admin/pcolor/models/PColor';
+import { Color } from '../../../../core/models/color.model';
 import { PColorService } from '../../../../core/components/admin/pcolor/services/PColor.service';
 import { AlertifyService } from '../../../../core/services/alertify.service';
 
@@ -14,7 +14,7 @@ export class ColorFormComponent implements OnInit {
   colorForm: FormGroup;
   isEditMode = false;
   colorId: number;
-  color: PColor;
+  color: Color;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -32,7 +32,7 @@ export class ColorFormComponent implements OnInit {
   createColorForm(): void {
     this.colorForm = this.formBuilder.group({
       name: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(50)]],
-      code: ['', [Validators.pattern(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/)]]
+      hexCode: ['', [Validators.pattern(/^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/)]]
     });
   }
 
@@ -51,7 +51,7 @@ export class ColorFormComponent implements OnInit {
         this.color = data;
         this.colorForm.patchValue({
           name: data.name,
-          code: data.code
+          hexCode: data.hexCode
         });
       },
       error: (error) => {
@@ -74,10 +74,16 @@ export class ColorFormComponent implements OnInit {
   }
 
   addColor(): void {
-    const color: PColor = {
+    const color: Color = {
       id: 0,
       name: this.colorForm.value.name,
-      code: this.colorForm.value.code
+      hexCode: this.colorForm.value.hexCode,
+      createdUserId: 0,
+      createdDate: new Date(),
+      lastUpdatedUserId: 0,
+      lastUpdatedDate: new Date(),
+      status: true,
+      isDeleted: false
     };
 
     this.colorService.addColor(color).subscribe({
@@ -92,10 +98,16 @@ export class ColorFormComponent implements OnInit {
   }
 
   updateColor(): void {
-    const color: PColor = {
+    const color: Color = {
       id: this.colorId,
       name: this.colorForm.value.name,
-      code: this.colorForm.value.code
+      hexCode: this.colorForm.value.hexCode,
+      createdUserId: this.color.createdUserId,
+      createdDate: this.color.createdDate,
+      lastUpdatedUserId: 0,
+      lastUpdatedDate: new Date(),
+      status: this.color.status,
+      isDeleted: this.color.isDeleted
     };
 
     this.colorService.updateColor(color).subscribe({

@@ -22,6 +22,11 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'language',       component: LanguageComponent,canActivate:[LoginGuard]},
     { path: 'translate',      component: TranslateComponent,canActivate:[LoginGuard]},
     { path: 'operationclaim', component: OperationClaimComponent,canActivate:[LoginGuard]},
-    { path: 'log',            component: LogDtoComponent,canActivate:[LoginGuard]}
+    { path: 'log',            component: LogDtoComponent,canActivate:[LoginGuard]},
+    { 
+      path: 'colors', 
+      loadChildren: () => import('../../../features/colors/colors.module').then(m => m.ColorsModule),
+      canActivate: [LoginGuard]
+    }
     
 ];
