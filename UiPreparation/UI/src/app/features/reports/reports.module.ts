@@ -12,33 +12,34 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatChipsModule } from '@angular/material/chips';
 import { TranslateModule } from '@ngx-translate/core';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SharedModule } from '../../core/shared/shared.module';
 
-import { CustomerListComponent } from './components/customer-list/customer-list.component';
-import { CustomerFormComponent } from './components/customer-form/customer-form.component';
-
+import { OrderReportComponent } from './components/order-report/order-report.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: CustomerListComponent
+    redirectTo: 'orders',
+    pathMatch: 'full'
   },
   {
-    path: 'add',
-    component: CustomerFormComponent
-  },
-  {
-    path: 'edit/:id',
-    component: CustomerFormComponent
+    path: 'orders',
+    component: OrderReportComponent
   }
 ];
 
 @NgModule({
   declarations: [
-    CustomerListComponent,
-    CustomerFormComponent
+    OrderReportComponent
   ],
   imports: [
     CommonModule,
@@ -55,9 +56,16 @@ const routes: Routes = [
     MatCheckboxModule,
     MatTooltipModule,
     MatSelectModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatCardModule,
+    MatDividerModule,
+    MatChipsModule,
     TranslateModule,
     SweetAlert2Module,
     SharedModule
   ]
 })
-export class CustomersModule { }
+export class ReportsModule { }

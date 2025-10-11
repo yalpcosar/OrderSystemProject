@@ -1,0 +1,141 @@
+<div class="color-dialog-container">
+  <div class="dialog-header">
+    <h2 mat-dialog-title>{{ 'PRODUCTS.MANAGE_COLORS' | translate }}</h2>
+    <button 
+      mat-icon-button 
+      (click)="onClose()"
+      class="close-button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <mat-dialog-content class="dialog-content">
+    
+    <!-- Color Form Section -->
+    <div class="form-section">
+      <h3>{{ isEditMode ? ('PRODUCTS.EDIT_COLOR' | translate) : ('PRODUCTS.ADD_COLOR' | translate) }}</h3>
+      
+      <form [formGroup]="colorForm" class="color-form">
+        <div class="form-row">
+          <mat-form-field appearance="outline" class="name-field">
+            <mat-label>{{ 'PRODUCTS.COLOR_NAME' | translate }}</mat-label>
+            <input 
+              matInput 
+              formControlName="name"
+              placeholder="{{ 'PRODUCTS.COLOR_NAME_PLACEHOLDER' | translate }}">
+            <mat-error *ngIf="isFieldInvalid('name')">
+              {{ getErrorMessage('name') }}
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="hex-field">
+            <mat-label>{{ 'PRODUCTS.HEX_CODE' | translate }}</mat-label>
+            <input 
+              matInput 
+              formControlName="hexCode"
+              placeholder="#FF0000"
+              maxlength="7">
+            <mat-error *ngIf="isFieldInvalid('hexCode')">
+              {{ getErrorMessage('hexCode') }}
+            </mat-error>
+          </mat-form-field>
+
+          <div class="color-preview" *ngIf="colorForm.get('hexCode')?.value">
+            <div 
+              class="preview-circle"
+              [style.background-color]="colorForm.get('hexCode')?.value">
+            </div>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button 
+            type="button"
+            mat-button 
+            (click)="cancelEdit()"
+            *ngIf="isEditMode"
+            class="cancel-button">
+            {{ 'COMMON.CANCEL' | translate }}
+          </button>
+          
+          <button 
+            type="button"
+            mat-raised-button 
+            color="primary"
+            (click)="isEditMode ? onUpdateColor() : onAddColor()"
+            [disabled]="colorForm.invalid || isLoading"
+            class="submit-button">
+            <mat-icon *ngIf="isLoading" class="spinning">refresh</mat-icon>
+            <mat-icon *ngIf="!isLoading">{{ isEditMode ? 'save' : 'add' }}</mat-icon>
+            {{ isEditMode ? ('COMMON.UPDATE' | translate) : ('COMMON.ADD' | translate) }}
+          </button>
+        </div>
+      </form>
+    </div>
+
+    <!-- Colors List Section -->
+    <div class="list-section">
+      <h3>{{ 'PRODUCTS.EXISTING_COLORS' | translate }}</h3>
+      
+      <div class="colors-grid" *ngIf="!isLoading">
+        <div 
+          class="color-card" 
+          *ngFor="let color of colors"
+          [class.editing]="isEditingColor(color.id)">
+          
+          <div class="color-display">
+            <div 
+              class="color-circle"
+              [style.background-color]="color.hexCode">
+            </div>
+            <div class="color-info">
+              <span class="color-name">{{ color.name }}</span>
+              <span class="color-hex">{{ color.hexCode }}</span>
+            </div>
+          </div>
+
+          <div class="color-actions">
+            <button 
+              mat-icon-button 
+              color="primary"
+              (click)="onEditColor(color)"
+              [disabled]="isEditMode"
+              matTooltip="{{ 'COMMON.EDIT' | translate }}">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button 
+              mat-icon-button 
+              color="warn"
+              (click)="onDeleteColor(color)"
+              [disabled]="isEditMode"
+              matTooltip="{{ 'COMMON.DELETE' | translate }}">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Loading State -->
+      <div class="loading-container" *ngIf="isLoading">
+        <mat-spinner diameter="40"></mat-spinner>
+        <p>{{ 'COMMON.LOADING' | translate }}</p>
+      </div>
+
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="colors.length === 0 && !isLoading">
+        <mat-icon>palette</mat-icon>
+        <h4>{{ 'PRODUCTS.NO_COLORS' | translate }}</h4>
+        <p>{{ 'PRODUCTS.NO_COLORS_DESCRIPTION' | translate }}</p>
+      </div>
+    </div>
+  </mat-dialog-content>
+
+  <mat-dialog-actions class="dialog-actions">
+    <button 
+      mat-button 
+      (click)="onClose()"
+      class="close-dialog-button">
+      {{ 'COMMON.CLOSE' | translate }}
+    </button>
+  </mat-dialog-actions>
+</div>

@@ -1,0 +1,221 @@
+.order-form-container {
+  padding: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+
+  .header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    gap: 10px;
+
+    h2 {
+      margin: 0;
+      color: #333;
+      font-weight: 500;
+    }
+
+    .cancel-button {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #666;
+    }
+  }
+
+  .order-form {
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    padding: 30px;
+
+    .form-content {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+
+      .full-width {
+        width: 100%;
+      }
+
+      .stock-status-container {
+        margin-top: 10px;
+
+        .stock-status {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          padding: 16px;
+          border-radius: 8px;
+          border: 2px solid;
+          transition: all 0.3s ease;
+
+          &.stock-available {
+            background-color: #e8f5e8;
+            border-color: #4caf50;
+            color: #2e7d32;
+
+            mat-icon {
+              color: #4caf50;
+            }
+          }
+
+          &.stock-unavailable {
+            background-color: #ffebee;
+            border-color: #f44336;
+            color: #c62828;
+
+            mat-icon {
+              color: #f44336;
+            }
+          }
+
+          &.stock-checking {
+            background-color: #fff3e0;
+            border-color: #ff9800;
+            color: #ef6c00;
+
+            mat-icon {
+              color: #ff9800;
+              animation: spin 1s linear infinite;
+            }
+          }
+
+          .stock-info {
+            flex: 1;
+
+            .stock-message {
+              font-weight: 500;
+              font-size: 14px;
+              margin-bottom: 4px;
+            }
+
+            .available-quantity {
+              font-size: 12px;
+              opacity: 0.8;
+            }
+          }
+        }
+
+        .stock-warning {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-top: 12px;
+          padding: 12px;
+          background-color: #ffebee;
+          border: 1px solid #f44336;
+          border-radius: 4px;
+          color: #c62828;
+          font-size: 14px;
+          font-weight: 500;
+
+          mat-icon {
+            color: #f44336;
+            font-size: 20px;
+            width: 20px;
+            height: 20px;
+          }
+        }
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 16px;
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #e0e0e0;
+
+      .submit-button {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        min-width: 140px;
+        justify-content: center;
+
+        mat-spinner {
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+
+  .loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+
+    mat-spinner {
+      margin-bottom: 16px;
+    }
+
+    p {
+      color: white;
+      font-size: 16px;
+      margin: 0;
+    }
+  }
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+// Error snackbar styling
+::ng-deep .error-snackbar {
+  background-color: #f44336 !important;
+  color: white !important;
+}
+
+// Form field error styling
+::ng-deep .mat-form-field-invalid {
+  .mat-form-field-outline {
+    color: #f44336 !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .order-form-container {
+    padding: 10px;
+
+    .header-section {
+      flex-direction: column;
+      align-items: stretch;
+
+      h2 {
+        text-align: center;
+        margin-bottom: 10px;
+      }
+
+      .cancel-button {
+        justify-content: center;
+      }
+    }
+
+    .order-form {
+      padding: 20px;
+
+      .form-actions {
+        flex-direction: column;
+        gap: 12px;
+
+        button {
+          width: 100%;
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,205 @@
+<div class="warehouse-report-container">
+  <!-- Header Section -->
+  <div class="report-header">
+    <div class="header-content">
+      <h1 class="page-title">
+        <mat-icon>warehouse</mat-icon>
+        Warehouse Report
+      </h1>
+      <p class="page-subtitle">Monitor product inventory and stock levels</p>
+    </div>
+    <div class="header-actions">
+      <button mat-raised-button color="primary" (click)="refreshReport()" [disabled]="isLoading">
+        <mat-icon>refresh</mat-icon>
+        Refresh
+      </button>
+      <button mat-raised-button color="accent" (click)="exportToCSV()" [disabled]="isLoading || !dataSource.data.length">
+        <mat-icon>download</mat-icon>
+        Export CSV
+      </button>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="summary-cards" *ngIf="warehouseReport">
+    <mat-card class="summary-card">
+      <mat-card-content>
+        <div class="card-content">
+          <mat-icon class="card-icon">inventory</mat-icon>
+          <div class="card-text">
+            <h3>{{ warehouseReport.totalProducts }}</h3>
+            <p>Total Products</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="summary-card">
+      <mat-card-content>
+        <div class="card-content">
+          <mat-icon class="card-icon">shopping_cart</mat-icon>
+          <div class="card-text">
+            <h3>{{ warehouseReport.totalQuantity }}</h3>
+            <p>Total Quantity</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="summary-card">
+      <mat-card-content>
+        <div class="card-content">
+          <mat-icon class="card-icon">check_circle</mat-icon>
+          <div class="card-text">
+            <h3>{{ warehouseReport.availableForSale }}</h3>
+            <p>Available for Sale</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <mat-card class="summary-card">
+      <mat-card-content>
+        <div class="card-content">
+          <mat-icon class="card-icon">warning</mat-icon>
+          <div class="card-text">
+            <h3>{{ warehouseReport.outOfStock }}</h3>
+            <p>Out of Stock</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Filters Section -->
+  <div class="filters-section">
+    <mat-card>
+      <mat-card-content>
+        <div class="filters-content">
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Search products</mat-label>
+            <input matInput 
+                   placeholder="Search by product name or color..." 
+                   [(ngModel)]="searchTerm"
+                   (input)="onSearchChange()">
+            <mat-icon matSuffix>search</mat-icon>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline" class="filter-field">
+            <mat-label>Filter by availability</mat-label>
+            <mat-select [(ngModel)]="availabilityFilter" (selectionChange)="onAvailabilityFilterChange()">
+              <mat-option value="all">All Items</mat-option>
+              <mat-option value="available">Available</mat-option>
+              <mat-option value="unavailable">Unavailable</mat-option>
+              <mat-option value="outOfStock">Out of Stock</mat-option>
+              <mat-option value="lowStock">Low Stock (≤10)</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+
+  <!-- Data Table -->
+  <div class="table-section">
+    <mat-card>
+      <mat-card-content>
+        <div class="table-container">
+          <div class="table-header">
+            <h3>Product Inventory</h3>
+            <span class="results-count">{{ dataSource.data.length }} items</span>
+          </div>
+
+          <div class="table-wrapper" *ngIf="!isLoading; else loadingTemplate">
+            <table mat-table [dataSource]="dataSource" matSort class="warehouse-table">
+              <!-- Product Name Column -->
+              <ng-container matColumnDef="productName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Product Name</th>
+                <td mat-cell *matCellDef="let item">
+                  <div class="product-info">
+                    <span class="product-name">{{ item.productName }}</span>
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Color Column -->
+              <ng-container matColumnDef="colorName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Color</th>
+                <td mat-cell *matCellDef="let item">
+                  <mat-chip class="color-chip" [style.background-color]="getColorHex(item.colorName)">
+                    {{ item.colorName }}
+                  </mat-chip>
+                </td>
+              </ng-container>
+
+              <!-- Size Column -->
+              <ng-container matColumnDef="size">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Size</th>
+                <td mat-cell *matCellDef="let item">
+                  <span class="size-badge">{{ item.size | sizeLabel }}</span>
+                </td>
+              </ng-container>
+
+              <!-- Quantity Column -->
+              <ng-container matColumnDef="quantity">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header>Quantity</th>
+                <td mat-cell *matCellDef="let item">
+                  <div class="quantity-display">
+                    <span class="quantity-number">{{ item.quantity }}</span>
+                    <mat-icon class="quantity-icon">inventory_2</mat-icon>
+                  </div>
+                </td>
+              </ng-container>
+
+              <!-- Availability Status Column -->
+              <ng-container matColumnDef="availabilityStatus">
+                <th mat-header-cell *matHeaderCellDef>Availability</th>
+                <td mat-cell *matCellDef="let item">
+                  <mat-chip [class]="getAvailabilityClass(item)">
+                    <mat-icon>{{ getAvailabilityIcon(item) }}</mat-icon>
+                    {{ getAvailabilityStatus(item) }}
+                  </mat-chip>
+                </td>
+              </ng-container>
+
+              <!-- Stock Level Column -->
+              <ng-container matColumnDef="stockLevel">
+                <th mat-header-cell *matHeaderCellDef>Stock Level</th>
+                <td mat-cell *matCellDef="let item">
+                  <div class="stock-level" [class]="getStockLevelClass(item.quantity)">
+                    <mat-icon>{{ getStockLevelIcon(item.quantity) }}</mat-icon>
+                    <span>{{ getStockLevelText(item.quantity) }}</span>
+                  </div>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+            <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+          </div>
+
+          <!-- Loading Template -->
+          <ng-template #loadingTemplate>
+            <div class="loading-container">
+              <mat-spinner diameter="50"></mat-spinner>
+              <p>Loading warehouse report...</p>
+            </div>
+          </ng-template>
+
+          <!-- Empty State -->
+          <div class="empty-state" *ngIf="!isLoading && dataSource.data.length === 0">
+            <mat-icon>inventory_2</mat-icon>
+            <h3>No warehouse data found</h3>
+            <p>There are no products matching your current filters.</p>
+            <button mat-raised-button color="primary" (click)="refreshReport()">
+              <mat-icon>refresh</mat-icon>
+              Refresh Data
+            </button>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>

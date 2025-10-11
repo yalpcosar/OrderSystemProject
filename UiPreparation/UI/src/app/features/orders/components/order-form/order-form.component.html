@@ -1,0 +1,94 @@
+<div class="order-form-container">
+  <div class="header-section">
+    <h2>{{ isEditMode ? 'Edit Order' : 'Create New Order' }}</h2>
+    <button mat-button (click)="onCancel()" class="cancel-button">
+      <mat-icon>arrow_back</mat-icon>
+      Back to Orders
+    </button>
+  </div>
+
+  <form [formGroup]="orderForm" (ngSubmit)="onSubmit()" class="order-form">
+    <div class="form-content">
+      
+      <!-- Customer Selection -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Customer</mat-label>
+        <mat-select formControlName="customerId" [class.mat-form-field-invalid]="isFieldInvalid('customerId')">
+          <mat-option *ngFor="let customer of customers" [value]="customer.id">
+            {{ customer.customerName }} ({{ customer.customerCode }})
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="isFieldInvalid('customerId')">
+          {{ getErrorMessage('customerId') }}
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Product Selection -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Product</mat-label>
+        <mat-select formControlName="productId" [class.mat-form-field-invalid]="isFieldInvalid('productId')">
+          <mat-option *ngFor="let product of products" [value]="product.productId">
+            {{ product.productName }} - {{ product.pColorName }}
+          </mat-option>
+        </mat-select>
+        <mat-error *ngIf="isFieldInvalid('productId')">
+          {{ getErrorMessage('productId') }}
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Quantity Input -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Quantity</mat-label>
+        <input matInput type="number" formControlName="quantity" 
+               [class.mat-form-field-invalid]="isFieldInvalid('quantity')"
+               min="1" placeholder="Enter quantity">
+        <mat-error *ngIf="isFieldInvalid('quantity')">
+          {{ getErrorMessage('quantity') }}
+        </mat-error>
+      </mat-form-field>
+
+      <!-- Stock Availability Status -->
+      <div class="stock-status-container" *ngIf="orderForm.get('productId')?.value && orderForm.get('quantity')?.value">
+        <div class="stock-status" [class]="getStockStatusClass()">
+          <mat-icon [class]="getStockStatusClass()">{{ getStockStatusIcon() }}</mat-icon>
+          <div class="stock-info">
+            <div class="stock-message" *ngIf="!isCheckingStock">
+              {{ stockAvailability.message || (stockAvailability.isAvailable ? 'Stock Available' : 'Insufficient Stock') }}
+            </div>
+            <div class="stock-message" *ngIf="isCheckingStock">
+              Checking stock availability...
+            </div>
+            <div class="available-quantity" *ngIf="stockAvailability.availableQuantity > 0 && !isCheckingStock">
+              Available: {{ stockAvailability.availableQuantity }} units
+            </div>
+          </div>
+        </div>
+        
+        <!-- Warning Message for Insufficient Stock -->
+        <div class="stock-warning" *ngIf="!stockAvailability.isAvailable && !isCheckingStock && stockAvailability.availableQuantity >= 0">
+          <mat-icon>warning</mat-icon>
+          <span>Cannot create order: Insufficient stock available</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="form-actions">
+      <button mat-button type="button" (click)="onCancel()" [disabled]="isLoading">
+        Cancel
+      </button>
+      <button mat-raised-button color="primary" type="submit" 
+              [disabled]="isSubmitDisabled()" class="submit-button">
+        <mat-spinner *ngIf="isLoading" diameter="20"></mat-spinner>
+        <span *ngIf="!isLoading">{{ isEditMode ? 'Update Order' : 'Create Order' }}</span>
+      </button>
+    </div>
+  </form>
+
+  <!-- Loading Overlay -->
+  <div class="loading-overlay" *ngIf="isLoading">
+    <mat-spinner></mat-spinner>
+    <p>{{ isEditMode ? 'Updating order...' : 'Creating order...' }}</p>
+  </div>
+</div>

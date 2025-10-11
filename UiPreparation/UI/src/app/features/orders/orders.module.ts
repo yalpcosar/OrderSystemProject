@@ -12,33 +12,34 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { TranslateModule } from '@ngx-translate/core';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SharedModule } from '../../core/shared/shared.module';
 
-import { CustomerListComponent } from './components/customer-list/customer-list.component';
-import { CustomerFormComponent } from './components/customer-form/customer-form.component';
-
+import { OrderListComponent } from './components/order-list/order-list.component';
+import { OrderFormComponent } from './components/order-form/order-form.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: CustomerListComponent
+    component: OrderListComponent
   },
   {
     path: 'add',
-    component: CustomerFormComponent
+    component: OrderFormComponent
   },
   {
     path: 'edit/:id',
-    component: CustomerFormComponent
+    component: OrderFormComponent
   }
 ];
 
 @NgModule({
   declarations: [
-    CustomerListComponent,
-    CustomerFormComponent
+    OrderListComponent,
+    OrderFormComponent
   ],
   imports: [
     CommonModule,
@@ -55,9 +56,11 @@ const routes: Routes = [
     MatCheckboxModule,
     MatTooltipModule,
     MatSelectModule,
+    MatSnackBarModule,
+    MatProgressSpinnerModule,
     TranslateModule,
     SweetAlert2Module,
     SharedModule
   ]
 })
-export class CustomersModule { }
+export class OrdersModule { }

@@ -12,33 +12,36 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSelectModule } from '@angular/material/select';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatChipsModule } from '@angular/material/chips';
 import { TranslateModule } from '@ngx-translate/core';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { SharedModule } from '../../core/shared/shared.module';
 
-import { CustomerListComponent } from './components/customer-list/customer-list.component';
-import { CustomerFormComponent } from './components/customer-form/customer-form.component';
-
+import { ProductListComponent } from './components/product-list/product-list.component';
+import { ProductFormComponent } from './components/product-form/product-form.component';
+import { ColorDialogComponent } from './components/color-dialog/color-dialog.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: CustomerListComponent
+    component: ProductListComponent
   },
   {
     path: 'add',
-    component: CustomerFormComponent
+    component: ProductFormComponent
   },
   {
     path: 'edit/:id',
-    component: CustomerFormComponent
+    component: ProductFormComponent
   }
 ];
 
 @NgModule({
   declarations: [
-    CustomerListComponent,
-    CustomerFormComponent
+    ProductListComponent,
+    ProductFormComponent,
+    ColorDialogComponent
   ],
   imports: [
     CommonModule,
@@ -55,9 +58,11 @@ const routes: Routes = [
     MatCheckboxModule,
     MatTooltipModule,
     MatSelectModule,
+    MatDialogModule,
+    MatChipsModule,
     TranslateModule,
     SweetAlert2Module,
     SharedModule
   ]
 })
-export class CustomersModule { }
+export class ProductsModule { }

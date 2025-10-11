@@ -21,7 +21,10 @@ export const ADMINROUTES: RouteInfo[] = [
   { path: '/translate', title: 'TranslateWords', icon: 'translate', class: '', claim: "GetTranslatesQuery" },
   { path: '/log', title: 'Logs', icon: 'update', class: '', claim: "GetLogDtoQuery" },
   { path: '/colors', title: 'Colors', icon: 'palette', class: '', claim: "GetPColorsQuery" },
-  { path: '/customers', title: 'Customers', icon: 'people', class: '', claim: "GetCustomersQuery" }
+  { path: '/customers', title: 'Customers', icon: 'people', class: '', claim: "GetCustomersQuery" },
+  { path: '/orders', title: 'Orders', icon: 'shopping_cart', class: '', claim: "CustomerRepresentative" },
+  { path: '/warehouse', title: 'Warehouse', icon: 'warehouse', class: '', claim: "" },
+  { path: '/reports', title: 'Reports', icon: 'assessment', class: '', claim: "CustomerRepresentative" }
 ];
 
 export const USERROUTES: RouteInfo[] = [ 
