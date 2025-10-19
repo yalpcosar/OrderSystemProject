@@ -73,10 +73,6 @@ export class AlertifyService {
 
   }
 
-  confirm(title: string, message: string, onConfirm: () => void) {
-    alertify.confirm(title, message, onConfirm, () => {});
-  }
-
   delete(url: string, values: any) {
     
     this.httpClient.request("delete", url, values)

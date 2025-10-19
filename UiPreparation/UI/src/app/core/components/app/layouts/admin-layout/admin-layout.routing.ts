@@ -22,31 +22,6 @@ export const AdminLayoutRoutes: Routes = [
     { path: 'language',       component: LanguageComponent,canActivate:[LoginGuard]},
     { path: 'translate',      component: TranslateComponent,canActivate:[LoginGuard]},
     { path: 'operationclaim', component: OperationClaimComponent,canActivate:[LoginGuard]},
-    { path: 'log',            component: LogDtoComponent,canActivate:[LoginGuard]},
-    { 
-      path: 'colors', 
-      loadChildren: () => import('app/features/colors/colors.module').then(m => m.ColorsModule),
-      canActivate: [LoginGuard]
-    },
-    { 
-      path: 'customers', 
-      loadChildren: () => import('app/features/customers/customers.module').then(m => m.CustomersModule),
-      canActivate: [LoginGuard]
-    },
-    { 
-      path: 'orders', 
-      loadChildren: () => import('app/features/orders/orders.module').then(m => m.OrdersModule),
-      canActivate: [LoginGuard]
-    },
-    { 
-      path: 'warehouse', 
-      loadChildren: () => import('app/features/warehouse/warehouse.module').then(m => m.WarehouseModule),
-      canActivate: [LoginGuard]
-    },
-    { 
-      path: 'reports', 
-      loadChildren: () => import('app/features/reports/reports.module').then(m => m.ReportsModule),
-      canActivate: [LoginGuard]
-    }
+    { path: 'log',            component: LogDtoComponent,canActivate:[LoginGuard]}
     
 ];
