@@ -1,13 +1,13 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../login/services/auth.service';
+import { AuthService } from '../login/Services/Auth.service';
 import { CustomTranslateService } from './services/custom_translate.service';
-import { LookUpService } from 'app/core/services/lookUp.service';
-import { AlertifyService } from 'app/core/services/alertify.service';
+import { LookUpService } from 'app/core/services/LookUp.service';
+import { AlertifyService } from 'app/core/services/Alertify.service';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
-import { LookUp } from 'app/core/models/lookUp';
+import { LookUp } from 'app/core/models/LookUp';
 import { Translate } from './models/translate';
 
 

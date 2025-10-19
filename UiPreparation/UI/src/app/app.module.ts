@@ -14,7 +14,7 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { LoginGuard } from './core/guards/login-guard';
 import { AuthInterceptorService } from './core/interceptors/auth-interceptor.service';
 import { HttpEntityRepositoryService } from './core/services/http-entity-repository.service';
-import { TranslationService } from './core/services/translation.service';
+import { TranslationService } from './core/services/Translation.service';
 
 
 // i18 kullanıclak ise aşağıdaki metod aktif edilecek

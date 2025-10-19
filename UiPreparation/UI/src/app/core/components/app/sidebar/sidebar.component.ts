@@ -2,7 +2,7 @@ import { HostListener } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { TranslateService } from '@ngx-translate/core';
-import { AuthService } from '../../admin/login/services/auth.service';
+import { AuthService } from '../../admin/login/Services/Auth.service';
 
 
 declare const $: any;

@@ -1,7 +1,7 @@
 ﻿import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import { LogDto } from '../models/LogDto';
+import { LogDto } from '../models/logdto';
 import { environment } from 'environments/environment';
 
 

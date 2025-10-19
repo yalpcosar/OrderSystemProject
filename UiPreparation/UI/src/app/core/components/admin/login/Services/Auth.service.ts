@@ -2,7 +2,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { AlertifyService } from 'app/core/services/alertify.service';
+import { AlertifyService } from '../../../../services/Alertify.service';
 import { LocalStorageService } from 'app/core/services/local-storage.service';
 import { environment } from 'environments/environment';
 import { LoginUser } from '../model/login-user';

@@ -1,7 +1,7 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { AuthService } from '../../admin/login/services/auth.service';
+import { AuthService } from '../../admin/login/Services/Auth.service';
 import { SharedService } from 'app/core/services/shared.service';
 
 
