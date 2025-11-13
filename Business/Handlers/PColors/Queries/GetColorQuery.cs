@@ -18,9 +18,9 @@ namespace Business.Handlers.PColors.Queries
 
         public class GetColorQueryHandler : IRequestHandler<GetColorQuery, IDataResult<PColor>>
         {
-            private readonly IColorRepository _colorRepository;
+            private readonly IPColorRepository _colorRepository;
 
-            public GetColorQueryHandler(IColorRepository colorRepository)
+            public GetColorQueryHandler(IPColorRepository colorRepository)
             {
                 _colorRepository = colorRepository;
             }

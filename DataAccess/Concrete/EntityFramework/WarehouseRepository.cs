@@ -14,42 +14,17 @@ namespace DataAccess.Concrete.EntityFramework
         public WarehouseRepository(ProjectDbContext context)
             : base(context)
         {
-        }
-        public async Task<WarehouseReportDto> GetWarehouseReportAsync()
-        {
-            var items = await Context.Warehouses
-                .Include(w => w.Product)
-                .ThenInclude(p => p.PColor)
-                .Select(w => new WarehouseItemDto
-                {
-                    ProductId = w.ProductId,
-                    ProductName = w.Product.Name,
-                    ColorName = w.Product.PColor.Name,
-                    Size = w.Product.Size,
-                    Quantity = w.Quantity,
-                    IsAvailableForSale = w.IsAvailableForSale
-                })
-                .ToListAsync();
 
-            return new WarehouseReportDto
-            {
-                Items = items,
-                TotalProducts = items.Count,
-                TotalQuantity = items.Sum(i => i.Quantity),
-                AvailableForSale = items.Count(i => i.IsAvailableForSale),
-                OutOfStock = items.Count(i => i.Quantity == 0)
-            };
         }
 
-        public async Task<bool> IsProductAvailableAsync(int productId, int requestedQuantity)
+        public Task<WarehouseReportDto> GetWarehouseReportAsync()
         {
-            var warehouse = await Context.Warehouses
-                .FirstOrDefaultAsync(w => w.ProductId == productId);
+            throw new System.NotImplementedException();
+        }
 
-            if (warehouse == null)
-                return false;
-
-            return warehouse.IsAvailableForSale && warehouse.Quantity >= requestedQuantity;
+        public Task<bool> IsProductAvailableAsync(int productId, int requestedQuantity)
+        {
+            throw new System.NotImplementedException();
         }
     }
 }

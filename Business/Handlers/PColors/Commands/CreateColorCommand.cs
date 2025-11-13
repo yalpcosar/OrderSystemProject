@@ -26,10 +26,10 @@ namespace Business.Handlers.PColors.Commands
 
         public class CreateColorCommandHandler : IRequestHandler<CreateColorCommand, IResult>
         {
-            private readonly IColorRepository _colorRepository;
+            private readonly IPColorRepository _colorRepository;
             private readonly IMediator _mediator;
 
-            public CreateColorCommandHandler(IColorRepository colorRepository, IMediator mediator)
+            public CreateColorCommandHandler(IPColorRepository colorRepository, IMediator mediator)
             {
                 _colorRepository = colorRepository;
                 _mediator = mediator;

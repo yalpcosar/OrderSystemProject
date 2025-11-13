@@ -1,9 +1,10 @@
-﻿using Core.Enums;
+﻿using Core.Entities;
+using Core.Enums;
 using System;
 
 namespace Entities.Dtos
 {
-    public class OrderDetailDto
+    public class OrderDetailDto: IDto
     {
         public int Id { get; set; }
         public string OrderNumber { get; set; }

@@ -9,9 +9,9 @@ namespace Business.Handlers.Products.ValidationRules
     public class UpdateProductValidator : AbstractValidator<UpdateProductCommand>
     {
         private readonly IProductRepository _productRepository;
-        private readonly IColorRepository _colorRepository;
+        private readonly IPColorRepository _colorRepository;
 
-        public UpdateProductValidator(IProductRepository productRepository, IColorRepository colorRepository)
+        public UpdateProductValidator(IProductRepository productRepository, IPColorRepository colorRepository)
         {
             _productRepository = productRepository;
             _colorRepository = colorRepository;

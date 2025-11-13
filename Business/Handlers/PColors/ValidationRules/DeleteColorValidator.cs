@@ -12,10 +12,10 @@ namespace Business.Handlers.PColors.ValidationRules
 {
     public class DeleteColorValidator : AbstractValidator<DeleteColorCommand>
     {
-        private readonly IColorRepository _colorRepository;
+        private readonly IPColorRepository _colorRepository;
         private readonly IProductRepository _productRepository;
 
-        public DeleteColorValidator(IColorRepository colorRepository, IProductRepository productRepository)
+        public DeleteColorValidator(IPColorRepository colorRepository, IProductRepository productRepository)
         {
             _colorRepository = colorRepository;
             _productRepository = productRepository;

@@ -1,14 +1,9 @@
-﻿using Core.Enums;
-using Org.BouncyCastle.Asn1.Esf;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using Core.Entities;
+using Core.Enums;
 
 namespace Entities.Dtos
 {
-    public class ProductWithStockDto
+    public class ProductWithStockDto: IDto
     {
         public int Id { get; set; }
         public string Name { get; set; }

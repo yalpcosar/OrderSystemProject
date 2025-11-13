@@ -8,9 +8,9 @@ namespace Business.Handlers.PColors.ValidationRules
 {
     public class CreateColorValidator : AbstractValidator<CreateColorCommand>
     {
-        private readonly IColorRepository _colorRepository;
+        private readonly IPColorRepository _colorRepository;
 
-        public CreateColorValidator(IColorRepository colorRepository)
+        public CreateColorValidator(IPColorRepository colorRepository)
         {
             _colorRepository = colorRepository;
 

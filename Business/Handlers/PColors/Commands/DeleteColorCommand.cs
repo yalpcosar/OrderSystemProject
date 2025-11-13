@@ -23,9 +23,9 @@ namespace Business.Handlers.PColors.Commands
 
         public class DeleteColorCommandHandler : IRequestHandler<DeleteColorCommand, IResult>
         {
-            private readonly IColorRepository _colorRepository;
+            private readonly IPColorRepository _colorRepository;
 
-            public DeleteColorCommandHandler(IColorRepository colorRepository)
+            public DeleteColorCommandHandler(IPColorRepository colorRepository)
             {
                 _colorRepository = colorRepository;
             }

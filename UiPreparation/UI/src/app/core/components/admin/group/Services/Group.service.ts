@@ -14,7 +14,6 @@ export class GroupService {
   getGroupList(): Observable<Group[]> {
     return this._httpClient.get<Group[]>(environment.getApiUrl + "/groups/");
   }
-
   addGroup(group: Group): Observable<any> {
     var result = this._httpClient.post(
       environment.getApiUrl + "/groups/",
@@ -23,7 +22,6 @@ export class GroupService {
     );
     return result;
   }
-
   updateGroup(group: Group): Observable<any> {
     var result = this._httpClient.put(
       environment.getApiUrl + "/groups/",

@@ -12,9 +12,9 @@ namespace Business.Handlers.PColors.ValidationRules
 {
     public class UpdateColorValidator : AbstractValidator<UpdateColorCommand>
     {
-        private readonly IColorRepository _colorRepository;
+        private readonly IPColorRepository _colorRepository;
 
-        public UpdateColorValidator(IColorRepository colorRepository)
+        public UpdateColorValidator(IPColorRepository colorRepository)
         {
             _colorRepository = colorRepository;
 

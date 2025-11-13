@@ -25,9 +25,9 @@ namespace Business.Handlers.PColors.Commands
 
         public class UpdateColorCommandHandler : IRequestHandler<UpdateColorCommand, IResult>
         {
-            private readonly IColorRepository _colorRepository;
+            private readonly IPColorRepository _colorRepository;
 
-            public UpdateColorCommandHandler(IColorRepository colorRepository)
+            public UpdateColorCommandHandler(IPColorRepository colorRepository)
             {
                 _colorRepository = colorRepository;
             }

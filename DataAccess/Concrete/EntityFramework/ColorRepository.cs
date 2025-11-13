@@ -5,7 +5,7 @@ using Entities.Concrete;
 
 namespace DataAccess.Concrete.EntityFramework
 {
-    public class ColorRepository : EfEntityRepositoryBase<PColor, ProjectDbContext>, IColorRepository
+    public class ColorRepository : EfEntityRepositoryBase<PColor, ProjectDbContext>, IPColorRepository
     {
         public ColorRepository(ProjectDbContext context)
             : base(context)
