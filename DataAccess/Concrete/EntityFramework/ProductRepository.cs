@@ -17,23 +17,9 @@ namespace DataAccess.Concrete.EntityFramework
         {
         }
 
-        public async Task<IEnumerable<ProductWithStockDto>> GetProductsWithStockAsync()
+        public Task<IEnumerable<ProductWithStockDto>> GetProductsWithStockAsync()
         {
-            return await Context.Products
-                .Include(p => p.PColor)
-                .Include(p => p.Warehouse)
-                .Select(p => new ProductWithStockDto
-                {
-                    Id = p.Id,
-                    Name = p.Name,
-                    ColorId = p.ColorId,
-                    ColorName = p.PColor.Name,
-                    Size = p.Size,
-                    Quantity = p.Warehouse != null ? p.Warehouse.Quantity : 0,
-                    IsAvailableForSale = p.Warehouse != null && p.Warehouse.IsAvailableForSale,
-                    Status = p.Status
-                })
-                .ToListAsync();
+            throw new System.NotImplementedException();
         }
     }
 }

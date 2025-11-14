@@ -7,7 +7,7 @@ namespace Entities.Concrete
     public class Product: BaseEntity, IEntity
     {
         public string Name { get; set; }
-        public int ColorId { get; set; }
+        public int PColorId { get; set; }
         public ESize Size { get; set; }
 
         public virtual PColor PColor { get; set; }
