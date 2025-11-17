@@ -18,14 +18,64 @@ namespace DataAccess.Concrete.EntityFramework
         {
         }
 
-        public Task<IEnumerable<OrderDetailDto>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate)
+        public async Task<IEnumerable<OrderDetailDto>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate)
         {
-            throw new NotImplementedException();
+           var query = Context.Orders
+            .Include(o => o.Customer)
+            .Include(o => o.Product)
+                .ThenInclude(p => p.PColor)
+            .Where(o => o.IsDeleted == false &&
+                o.CreatedDate >= startDate &&
+                o.CreatedDate <= endDate);
+
+            return await query.Select(o => new OrderDetailDto
+            {
+                Id = o.Id,
+                OrderDate = o.CreatedDate,
+                Quantity = o.Quantity,
+                Status = o.Status,
+
+                //Customer
+                CustomerId = o.CustomerId,
+                CustomerName = o.Customer.CustomerName,
+                CustomerCode = o.Customer.CustomerCode,
+
+                //Product
+                ProductId = o.Product.Id,
+                ProductName = o.Product.Name,
+                ColorName = o.Product.PColor.Name,
+                Size = o.Product.Size     
+                         
+            }).ToListAsync();
         }
 
-        public Task<IEnumerable<OrderDetailDto>> GetOrdersWithDetailsAsync()
+        public async Task<IEnumerable<OrderDetailDto>> GetOrdersWithDetailsAsync()
         {
-            throw new NotImplementedException();
+            var query = Context.Orders
+            .Include(o => o.Customer)
+            .Include(o => o.Product)
+                .ThenInclude(p => p.PColor)
+            .Where(o => o.IsDeleted == false);
+
+            return await query.Select(o => new OrderDetailDto()
+            {
+                Id = o.Id,
+                OrderDate = o.CreatedDate,
+                Quantity = o.Quantity,
+                Status = o.Status,
+
+                //Customer
+                CustomerId = o.CustomerId,
+                CustomerName = o.Customer.CustomerName,
+                CustomerCode = o.Customer.CustomerCode,
+
+                //Product
+                ProductId = o.Product.Id,
+                ProductName = o.Product.Name,
+                ColorName = o.Product.PColor.Name,
+                Size = o.Product.Size                
+                
+            }).ToListAsync();
         }
     }
 }

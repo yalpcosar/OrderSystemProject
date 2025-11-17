@@ -44,6 +44,7 @@ export class GroupComponent implements AfterViewInit, OnInit {
   isClaimChange: boolean = false;
 
   groupId:number;
+Filter: any;
 
   constructor(private groupService:GroupService, private lookupService:LookUpService,private alertifyService:AlertifyService,private formBuilder: FormBuilder, private authService:AuthService) { }
 

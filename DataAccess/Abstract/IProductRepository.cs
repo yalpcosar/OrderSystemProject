@@ -8,7 +8,7 @@ namespace DataAccess.Abstract
 {
     public interface IProductRepository : IEntityRepository<Product>
     {
-        Task<IEnumerable<ProductWithStockDto>> GetProductsWithStockAsync();
+ 
     }
 }
 

@@ -17,14 +17,51 @@ namespace DataAccess.Concrete.EntityFramework
 
         }
 
-        public Task<WarehouseReportDto> GetWarehouseReportAsync()
+        public async Task<WarehouseReportDto> GetWarehouseReportAsync()
         {
-            throw new System.NotImplementedException();
-        }
+            var query = Context.Warehouses
+            .Include(w => w.Product)
+                .ThenInclude(p => p.PColor)
+            .Where(w => w.IsAvailableForSale == true && w.IsDeleted == false);
+                
+            var reportItems = await query.Select(w => new WarehouseItemDto
+            {
+             ProductId = w.ProductId,
+             ProductName = w.Product.Name,
+             ColorName = w.Product.PColor.Name,
+             Size = w.Product.Size,
+             Quantity = w.Quantity,
+             IsAvailableForSale = w.IsAvailableForSale
 
-        public Task<bool> IsProductAvailableAsync(int productId, int requestedQuantity)
+            }).ToListAsync();
+
+            int totalProducts = reportItems.Count();
+            int totalQuantity = reportItems.Sum(x => x.Quantity);
+            int outOfStockCount = await Context.Warehouses.CountAsync(x => x.Quantity == 0 && x.IsAvailableForSale == false);
+
+            var finalReport = new WarehouseReportDto
+            {
+                Items = reportItems,
+                TotalProducts = totalProducts,
+                TotalQuantity = totalQuantity,
+                OutOfStock = outOfStockCount,
+                IsAvailableForSale = true
+            };
+
+            return finalReport;
+        }
+        
+        public async Task<bool> IsProductAvailableAsync(int productId, int requestedQuantity)
         {
-            throw new System.NotImplementedException();
+           var warehouseItem = await Context.Warehouses
+           .FirstOrDefaultAsync(x => x.ProductId == productId && x.IsDeleted == false);
+
+           if(warehouseItem == null || warehouseItem.IsAvailableForSale == false)
+            {
+                return false;
+            }
+
+            return warehouseItem.Quantity >= requestedQuantity;
         }
     }
 }

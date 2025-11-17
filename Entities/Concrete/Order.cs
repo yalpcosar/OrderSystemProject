@@ -5,6 +5,7 @@ namespace Entities.Concrete
 {
     public class Order: BaseEntity, IEntity
     {
+
         public int CustomerId { get; set; }
         public int ProductId { get; set; }
         public int Quantity { get; set; }

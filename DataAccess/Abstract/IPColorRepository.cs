@@ -5,6 +5,7 @@ namespace DataAccess.Abstract
 {
     public interface IPColorRepository : IEntityRepository<PColor>
     {
+        
     }
 }
 
