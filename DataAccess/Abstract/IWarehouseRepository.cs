@@ -8,7 +8,7 @@ namespace DataAccess.Abstract
     public interface IWarehouseRepository : IEntityRepository<Warehouse>
     {
         Task<WarehouseReportDto> GetWarehouseReportAsync();
-        Task<bool> IsProductAvailableAsync(int productId, int requestedQuantity);
+        Task<WarehouseItemDto> GetWarehouseItemByProductIdAsync(int productId);
     }
 }
 

@@ -10,13 +10,13 @@ using Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using MediatR;
+using Org.BouncyCastle.Ocsp;
 
 namespace Business.Handlers.Warehouses.Commands
 {
     public class UpdateWarehouseCommand : IRequest<IResult>
     {
         public int Id { get; set; }
-        public int ProductId { get; set; }
         public int Quantity { get; set; }
         public bool IsAvailableForSale { get; set; }
 
@@ -35,18 +35,15 @@ namespace Business.Handlers.Warehouses.Commands
             [LogAspect(typeof(FileLogger))]
             public async Task<IResult> Handle(UpdateWarehouseCommand request, CancellationToken cancellationToken)
             {
-                var warehouseToUpdate = await _warehouseRepository.GetAsync(w => w.Id == request.Id);
+                var warehouse = await _warehouseRepository.GetAsync(w => w.Id == request.Id);
 
-                if (warehouseToUpdate == null)
-                {
+                if (warehouse == null)
                     return new ErrorResult(Messages.WarehouseNotFound);
-                }
+                
+                warehouse.Quantity = request.Quantity;
+                warehouse.IsAvailableForSale = request.IsAvailableForSale;
 
-                warehouseToUpdate.ProductId = request.ProductId;
-                warehouseToUpdate.Quantity = request.Quantity;
-                warehouseToUpdate.IsAvailableForSale = request.IsAvailableForSale;
-
-                _warehouseRepository.Update(warehouseToUpdate);
+                _warehouseRepository.Update(warehouse);
                 await _warehouseRepository.SaveChangesAsync();
                 return new SuccessResult(Messages.Updated);
             }

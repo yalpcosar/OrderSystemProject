@@ -2,7 +2,10 @@ using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Business.BusinessAspects;
+using Business.Constants;
+using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Logging;
+using Core.Aspects.Autofac.Performance;
 using Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
@@ -25,16 +28,15 @@ namespace Business.Handlers.Warehouses.Queries
             }
 
             [SecuredOperation(Priority = 1)]
+            [PerformanceAspect(5)]
+            [CacheAspect(10)]
             [LogAspect(typeof(FileLogger))]
             public async Task<IDataResult<WarehouseItemDto>> Handle(GetWarehouseQuery request, CancellationToken cancellationToken)
             {
-                var warehouseReport = await _warehouseRepository.GetWarehouseReportAsync();
-                var warehouse = warehouseReport.Items.FirstOrDefault(w => w.ProductId == request.ProductId);
+                var warehouse = await _warehouseRepository.GetWarehouseItemByProductIdAsync(request.ProductId);
                 
                 if (warehouse == null)
-                {
-                    return new ErrorDataResult<WarehouseItemDto>(Business.Constants.Messages.WarehouseNotFound);
-                }
+                    return new ErrorDataResult<WarehouseItemDto>(Messages.WarehouseNotFound);
 
                 return new SuccessDataResult<WarehouseItemDto>(warehouse);
             }

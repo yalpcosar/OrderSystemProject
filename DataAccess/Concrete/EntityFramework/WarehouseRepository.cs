@@ -17,51 +17,54 @@ namespace DataAccess.Concrete.EntityFramework
 
         }
 
+
         public async Task<WarehouseReportDto> GetWarehouseReportAsync()
         {
             var query = Context.Warehouses
             .Include(w => w.Product)
                 .ThenInclude(p => p.PColor)
-            .Where(w => w.IsAvailableForSale == true && w.IsDeleted == false);
-                
+            .Where(w => w.IsDeleted == false && w.Product.IsDeleted == false);
+
             var reportItems = await query.Select(w => new WarehouseItemDto
             {
-             ProductId = w.ProductId,
-             ProductName = w.Product.Name,
-             ColorName = w.Product.PColor.Name,
-             Size = w.Product.Size,
-             Quantity = w.Quantity,
-             IsAvailableForSale = w.IsAvailableForSale
+                WarehouseId = w.Id,
+                ProductId = w.ProductId,
+                ProductName = w.Product.Name,
+                ColorName = w.Product.PColor.Name,
+                Size = w.Product.Size,
+                Quantity = w.Quantity,
+                IsAvailableForSale = w.IsAvailableForSale
 
             }).ToListAsync();
 
             int totalProducts = reportItems.Count();
-            int totalQuantity = reportItems.Sum(x => x.Quantity);
-            int outOfStockCount = await Context.Warehouses.CountAsync(x => x.Quantity == 0 && x.IsAvailableForSale == false);
+            int outOfStockCount = reportItems.Count(x => x.Quantity <= 0);
 
             var finalReport = new WarehouseReportDto
             {
                 Items = reportItems,
-                TotalProducts = totalProducts,
-                TotalQuantity = totalQuantity,
                 OutOfStock = outOfStockCount,
-                IsAvailableForSale = true
             };
 
             return finalReport;
         }
-        
-        public async Task<bool> IsProductAvailableAsync(int productId, int requestedQuantity)
+        public async Task<WarehouseItemDto> GetWarehouseItemByProductIdAsync(int productId)
         {
-           var warehouseItem = await Context.Warehouses
-           .FirstOrDefaultAsync(x => x.ProductId == productId && x.IsDeleted == false);
-
-           if(warehouseItem == null || warehouseItem.IsAvailableForSale == false)
-            {
-                return false;
-            }
-
-            return warehouseItem.Quantity >= requestedQuantity;
+            return await Context.Warehouses
+                .Include(w => w.Product)
+                .ThenInclude(p => p.PColor)
+                .Where(w => w.ProductId == productId && w.IsDeleted == false && w.Product.IsDeleted == false)
+                .Select(w => new WarehouseItemDto
+                {
+                    WarehouseId = w.Id,
+                    ProductId = w.ProductId,
+                    ProductName = w.Product.Name,
+                    ColorName = w.Product.PColor.Name,
+                    Size = w.Product.Size,
+                    Quantity = w.Quantity,
+                    IsAvailableForSale = w.IsAvailableForSale
+                })
+                .FirstOrDefaultAsync();
         }
     }
 }
