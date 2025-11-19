@@ -26,7 +26,7 @@ namespace DataAccess.Concrete.EntityFramework
             
             return await query.Select(p => new ProductDetailDto
             {
-                Id = p.Id,
+                ProductId = p.Id,
                 ProductName = p.Name,
                 Size = p.Size,
                 ColorName = p.PColor.Name,

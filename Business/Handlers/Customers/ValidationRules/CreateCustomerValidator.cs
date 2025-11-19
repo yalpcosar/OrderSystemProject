@@ -6,8 +6,6 @@ namespace Business.Handlers.Customers.ValidationRules
 {
     public class CreateCustomerValidator : AbstractValidator<CreateCustomerCommand>
     {
-        private readonly ICustomerRepository _customerRepository;
-
         public CreateCustomerValidator()
         {
             RuleFor(x => x.CustomerName).NotEmpty().MaximumLength(150);

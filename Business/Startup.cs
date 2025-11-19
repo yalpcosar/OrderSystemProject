@@ -164,7 +164,7 @@ namespace Business
             services.AddTransient<IUserGroupRepository, UserGroupRepository>();
 
             // New entity repositories
-            services.AddTransient<IPColorRepository, ColorRepository>();
+            services.AddTransient<IPColorRepository, PColorRepository>();
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
@@ -193,7 +193,7 @@ namespace Business
             services.AddTransient<IUserGroupRepository, UserGroupRepository>();
 
             // New entity repositories
-            services.AddTransient<IPColorRepository, ColorRepository>();
+            services.AddTransient<IPColorRepository, PColorRepository>();
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
@@ -223,7 +223,7 @@ namespace Business
             services.AddTransient<IUserGroupRepository, UserGroupRepository>();
 
             // New entity repositories
-            services.AddTransient<IPColorRepository, ColorRepository>();
+            services.AddTransient<IPColorRepository, PColorRepository>();
             services.AddTransient<ICustomerRepository, CustomerRepository>();
             services.AddTransient<IOrderRepository, OrderRepository>();
             services.AddTransient<IProductRepository, ProductRepository>();
