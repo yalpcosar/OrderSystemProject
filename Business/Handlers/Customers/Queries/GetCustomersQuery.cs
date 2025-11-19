@@ -31,7 +31,7 @@ namespace Business.Handlers.Customers.Queries
             [LogAspect(typeof(FileLogger))]
             public async Task<IDataResult<IEnumerable<Customer>>> Handle(GetCustomersQuery request, CancellationToken cancellationToken)
             {
-                var customers = await _customerRepository.GetListAsync(c => !c.IsDeleted);
+                var customers = await _customerRepository.GetListAsync(c => c.IsDeleted == false);
                 return new SuccessDataResult<IEnumerable<Customer>>(customers);
             }
         }

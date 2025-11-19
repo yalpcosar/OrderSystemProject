@@ -7,11 +7,7 @@ using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using MediatR;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -34,7 +30,7 @@ namespace Business.Handlers.PColors.Queries
             [LogAspect(typeof(FileLogger))]
             public async Task<IDataResult<IEnumerable<PColor>>> Handle(GetColorsQuery request, CancellationToken cancellationToken)
             {
-                var colors = await _colorRepository.GetListAsync(c => !c.IsDeleted);
+                var colors = await _colorRepository.GetListAsync(c => c.IsDeleted == false);
                 return new SuccessDataResult<IEnumerable<PColor>>(colors);
             }
         }

@@ -1,0 +1,17 @@
+using Core.Entities;
+using Core.Enums;
+
+namespace Entities.Dtos
+{
+    public class ProductDetailDto: IDto
+    {
+        public int ProductId { get; set;}
+        public string ProductName { get; set; }
+        public string ColorName { get; set; }
+        public string ColorHexCode { get; set; }
+        public ESize Size { get; set; }
+        public int Quantity { get; set; }
+        public bool IsAvailableForSale { get; set; }
+
+    }
+}

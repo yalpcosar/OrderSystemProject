@@ -8,10 +8,6 @@ using Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -38,9 +34,9 @@ namespace Business.Handlers.PColors.Commands
             {
                 var color = await _colorRepository.GetAsync(c => c.Id == request.Id);
                 if (color == null)
-                    return new ErrorResult(Messages.NotFound);
+                    return new ErrorResult(Messages.ColorNotFound);
 
-                color.IsDeleted = true; // Soft delete
+                color.IsDeleted = true;
                 _colorRepository.Update(color);
                 await _colorRepository.SaveChangesAsync();
 

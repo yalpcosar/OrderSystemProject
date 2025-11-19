@@ -18,7 +18,7 @@ namespace Business.Handlers.Products.Commands
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int ColorId { get; set; }
+        public int PColorId { get; set; }
         public ESize Size { get; set; }
 
         public class UpdateProductCommandHandler : IRequestHandler<UpdateProductCommand, IResult>
@@ -36,15 +36,14 @@ namespace Business.Handlers.Products.Commands
             [LogAspect(typeof(FileLogger))]
             public async Task<IResult> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
             {
-                var productToUpdate = await _productRepository.GetAsync(p => p.Id == request.Id);
+                var productToUpdate = await _productRepository.GetAsync(p => p.Id == request.Id && p.IsDeleted == false);
 
                 if (productToUpdate == null)
-                {
                     return new ErrorResult(Messages.ProductNotFound);
-                }
+                
 
                 productToUpdate.Name = request.Name;
-                productToUpdate.ColorId = request.ColorId;
+                productToUpdate.PColorId = request.PColorId;
                 productToUpdate.Size = request.Size;
 
                 _productRepository.Update(productToUpdate);

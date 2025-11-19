@@ -18,18 +18,19 @@ namespace Business.Handlers.Products.Commands
     public class CreateProductCommand : IRequest<IResult>
     {
         public string Name { get; set; }
-        public int ColorId { get; set; }
+        public int PColorId { get; set; }
         public ESize Size { get; set; }
+
+        public int Quantity { get; set;}
+        public bool IsAvailableForSale { get; set;}
 
         public class CreateProductCommandHandler : IRequestHandler<CreateProductCommand, IResult>
         {
             private readonly IProductRepository _productRepository;
-            private readonly IWarehouseRepository _warehouseRepository;
 
-            public CreateProductCommandHandler(IProductRepository productRepository, IWarehouseRepository warehouseRepository)
+            public CreateProductCommandHandler(IProductRepository productRepository)
             {
                 _productRepository = productRepository;
-                _warehouseRepository = warehouseRepository;
             }
 
             [SecuredOperation(Priority = 1)]
@@ -38,27 +39,25 @@ namespace Business.Handlers.Products.Commands
             [LogAspect(typeof(FileLogger))]
             public async Task<IResult> Handle(CreateProductCommand request, CancellationToken cancellationToken)
             {
+                var productIsExist = await _productRepository.GetAsync(p => p.Name == request.Name);
+                if(productIsExist == null)
+                    return new ErrorResult(Messages.ProductAlreadyExists);
+
                 var product = new Product
                 {
                     Name = request.Name,
-                    ColorId = request.ColorId,
-                    Size = request.Size
+                    PColorId = request.PColorId,
+                    Size = request.Size,
+
+                    Warehouse = new Warehouse
+                    {
+                        Quantity = request.Quantity,
+                        IsAvailableForSale = true
+                    }
                 };
 
                 _productRepository.Add(product);
                 await _productRepository.SaveChangesAsync();
-
-                // Auto-create Warehouse for the new product
-                var warehouse = new Warehouse
-                {
-                    ProductId = product.Id,
-                    Quantity = 0,
-                    IsAvailableForSale = false
-                };
-
-                _warehouseRepository.Add(warehouse);
-                await _warehouseRepository.SaveChangesAsync();
-
                 return new SuccessResult(Messages.Added);
             }
         }

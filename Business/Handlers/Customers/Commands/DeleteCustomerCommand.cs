@@ -32,16 +32,12 @@ namespace Business.Handlers.Customers.Commands
             [LogAspect(typeof(FileLogger))]
             public async Task<IResult> Handle(DeleteCustomerCommand request, CancellationToken cancellationToken)
             {
-                var customerToDelete = await _customerRepository.GetAsync(c => c.Id == request.Id);
-
-                if (customerToDelete == null)
-                {
+                var customer = await _customerRepository.GetAsync(c => c.Id == request.Id);
+                if (customer == null)
                     return new ErrorResult(Messages.CustomerNotFound);
-                }
-
-                // Soft delete
-                customerToDelete.IsDeleted = true;
-                _customerRepository.Update(customerToDelete);
+                
+                customer.IsDeleted = true;
+                _customerRepository.Update(customer);
                 await _customerRepository.SaveChangesAsync();
                 return new SuccessResult(Messages.Deleted);
             }

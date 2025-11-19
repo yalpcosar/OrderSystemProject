@@ -7,12 +7,13 @@ namespace Entities.Concrete
 {
     public class Customer: BaseEntity, IEntity
     {
-        public string CustomerName { get; set; }
-        public string CustomerCode { get; set; }
         public Customer()
         {
-            CustomerCode = GenerateRandomCode();
+         CustomerCode = GenerateRandomCode();
         }
+        public string CustomerName { get; set; }
+        public string CustomerCode { get; set; }
+
         private static string GenerateRandomCode()
         {
           const string chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";

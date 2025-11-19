@@ -40,7 +40,7 @@ namespace Business.Handlers.PColors.Commands
             {
                 var color = await _colorRepository.GetAsync(c => c.Id == request.Id);
                 if (color == null)
-                    return new ErrorResult(Messages.NotFound);
+                    return new ErrorResult(Messages.ColorNotFound);
 
                 color.Name = request.Name;
                 color.HexCode = request.HexCode;

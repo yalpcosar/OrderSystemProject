@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AutoMapper;
 using Business.BusinessAspects;
+using Business.Constants;
 using Core.Aspects.Autofac.Logging;
 using Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Core.Utilities.Results;
@@ -28,14 +29,11 @@ namespace Business.Handlers.Customers.Queries
             [LogAspect(typeof(FileLogger))]
             public async Task<IDataResult<Customer>> Handle(GetCustomerQuery request, CancellationToken cancellationToken)
             {
-                var customer = await _customerRepository.GetAsync(c => c.Id == request.Id && !c.IsDeleted);
-                
-                if (customer == null)
-                {
-                    return new ErrorDataResult<Customer>(Business.Constants.Messages.CustomerNotFound);
-                }
+                var customer = await _customerRepository.GetAsync(c => c.Id == request.Id && c.IsDeleted == false);
+                return customer == null 
+                     ? new ErrorDataResult<Customer>(Messages.CustomerNotFound)
+                     : new SuccessDataResult<Customer>(customer);
 
-                return new SuccessDataResult<Customer>(customer);
             }
         }
     }

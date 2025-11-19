@@ -1,43 +1,17 @@
 ﻿using Business.Handlers.PColors.Commands;
 using DataAccess.Abstract;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading;
-using System.Threading.Tasks;
 
 namespace Business.Handlers.PColors.ValidationRules
 {
     public class UpdateColorValidator : AbstractValidator<UpdateColorCommand>
     {
-        private readonly IPColorRepository _colorRepository;
-
-        public UpdateColorValidator(IPColorRepository colorRepository)
+        public UpdateColorValidator()
         {
-            _colorRepository = colorRepository;
-
-            RuleFor(x => x.Id)
-                .GreaterThan(0).WithMessage("Geçersiz renk ID");
-
-            RuleFor(x => x.Name)
-                .NotEmpty().WithMessage("Renk adı zorunludur")
-                .MaximumLength(50).WithMessage("Renk adı 50 karakteri geçemez")
-                .MustAsync(BeUniqueColorName)
-                .WithMessage("Bu renk adı zaten kullanılıyor");
-
-            RuleFor(x => x.HexCode)
-                .Matches(@"^#[0-9A-Fa-f]{6}$")
-                .When(x => !string.IsNullOrEmpty(x.HexCode))
-                .WithMessage("Hex kodu #RRGGBB formatında olmalıdır");
+            RuleFor(p => p.Id).NotEmpty();
+            RuleFor(p => p.Name).NotEmpty().WithMessage("Color name is required");
+            RuleFor(p => p.Name).MaximumLength(50).WithMessage("Color name cannot exceed 50 characters");
+            RuleFor(p => p.HexCode).MaximumLength(7).WithMessage("Hex Code cannot exceed 7 characters");
         }
-
-        private async Task<bool> BeUniqueColorName(UpdateColorCommand command, string name, CancellationToken cancellation)
-        {
-            var exists = await _colorRepository.GetAsync(c => c.Name == name && c.Id != command.Id && !c.IsDeleted);
-            return exists == null;
-        }
-
     }
 }

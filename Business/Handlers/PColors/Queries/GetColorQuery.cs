@@ -29,9 +29,9 @@ namespace Business.Handlers.PColors.Queries
             [LogAspect(typeof(FileLogger))]
             public async Task<IDataResult<PColor>> Handle(GetColorQuery request, CancellationToken cancellationToken)
             {
-                var color = await _colorRepository.GetAsync(c => c.Id == request.Id && !c.IsDeleted);
+                var color = await _colorRepository.GetAsync(c => c.Id == request.Id && c.IsDeleted == false);
                 return color == null
-                    ? new ErrorDataResult<PColor>(Messages.NotFound)
+                    ? new ErrorDataResult<PColor>(Messages.ColorNotFound)
                     : new SuccessDataResult<PColor>(color);
             }
         }

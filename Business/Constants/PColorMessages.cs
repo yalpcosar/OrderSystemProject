@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Business.Constants
+﻿namespace Business.Constants
 {
     public static partial class Messages
     {
-        public static string NotFound => "ColorNotFound";
+        public static string ColorAdded = "Color added.";
+        public static string ColorUpdated = "Color updated.";
+        public static string ColorDeleted = "Color deleted.";
+        public static string ColorNotFound = "Color not found.";
     }
 }

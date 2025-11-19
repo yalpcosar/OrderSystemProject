@@ -9,11 +9,6 @@ using Core.Utilities.Results;
 using DataAccess.Abstract;
 using Entities.Concrete;
 using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -27,12 +22,12 @@ namespace Business.Handlers.PColors.Commands
         public class CreateColorCommandHandler : IRequestHandler<CreateColorCommand, IResult>
         {
             private readonly IPColorRepository _colorRepository;
-            private readonly IMediator _mediator;
 
-            public CreateColorCommandHandler(IPColorRepository colorRepository, IMediator mediator)
+
+            public CreateColorCommandHandler(IPColorRepository colorRepository)
             {
                 _colorRepository = colorRepository;
-                _mediator = mediator;
+
             }
 
             [SecuredOperation(Priority = 1)]

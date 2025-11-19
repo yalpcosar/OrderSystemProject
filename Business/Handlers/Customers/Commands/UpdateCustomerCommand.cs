@@ -37,20 +37,17 @@ namespace Business.Handlers.Customers.Commands
             [LogAspect(typeof(FileLogger))]
             public async Task<IResult> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
             {
-                var customerToUpdate = await _customerRepository.GetAsync(c => c.Id == request.Id);
-
-                if (customerToUpdate == null)
-                {
+                var customer = await _customerRepository.GetAsync(c => c.Id == request.Id);
+                if (customer == null)
                     return new ErrorResult(Messages.CustomerNotFound);
-                }
+            
+                customer.CustomerName = request.CustomerName;
+                customer.CustomerCode = request.CustomerCode;
+                customer.Address = request.Address;
+                customer.PhoneNumber = request.PhoneNumber;
+                customer.Email = request.Email;
 
-                customerToUpdate.CustomerName = request.CustomerName;
-                customerToUpdate.CustomerCode = request.CustomerCode;
-                customerToUpdate.Address = request.Address;
-                customerToUpdate.PhoneNumber = request.PhoneNumber;
-                customerToUpdate.Email = request.Email;
-
-                _customerRepository.Update(customerToUpdate);
+                _customerRepository.Update(customer);
                 await _customerRepository.SaveChangesAsync();
                 return new SuccessResult(Messages.Updated);
             }
