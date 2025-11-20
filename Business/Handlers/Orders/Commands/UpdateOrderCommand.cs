@@ -5,10 +5,12 @@ using Business.Constants;
 using Business.Handlers.Orders.ValidationRules;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Logging;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Core.Utilities.Results;
 using DataAccess.Abstract;
+using Entities.Concrete;
 using MediatR;
 
 namespace Business.Handlers.Orders.Commands
@@ -19,7 +21,7 @@ namespace Business.Handlers.Orders.Commands
         public int CustomerId { get; set; }
         public int ProductId { get; set; }
         public int Quantity { get; set; }
-        public string OrderNumber { get; set; }
+        public bool Status { get; set; }
 
         public class UpdateOrderCommandHandler : IRequestHandler<UpdateOrderCommand, IResult>
         {
@@ -36,55 +38,37 @@ namespace Business.Handlers.Orders.Commands
             [ValidationAspect(typeof(UpdateOrderValidator), Priority = 2)]
             [CacheRemoveAspect()]
             [LogAspect(typeof(FileLogger))]
+            [TransactionScopeAspect]
             public async Task<IResult> Handle(UpdateOrderCommand request, CancellationToken cancellationToken)
             {
-                var orderToUpdate = await _orderRepository.GetAsync(o => o.Id == request.Id);
-
-                if (orderToUpdate == null)
-                {
+                var orderUpdate = await _orderRepository.GetAsync(o => o.Id == request.Id && o.IsDeleted == false);
+                if (orderUpdate == null)
                     return new ErrorResult(Messages.OrderNotFound);
-                }
 
-                var oldQuantity = orderToUpdate.Quantity;
-                var oldProductId = orderToUpdate.ProductId;
-
-                // Restore old warehouse stock
-                if (oldProductId == request.ProductId)
+                var oldWarehouseItem = await _warehouseRepository.GetAsync(w => w.ProductId == orderUpdate.ProductId);
+                if (oldWarehouseItem != null)
                 {
-                    var warehouse = await _warehouseRepository.GetAsync(w => w.ProductId == oldProductId);
-                    if (warehouse != null)
-                    {
-                        warehouse.Quantity += oldQuantity;
-                        warehouse.Quantity -= request.Quantity;
-                        _warehouseRepository.Update(warehouse);
-                    }
-                }
-                else
-                {
-                    // Restore old product stock
-                    var oldWarehouse = await _warehouseRepository.GetAsync(w => w.ProductId == oldProductId);
-                    if (oldWarehouse != null)
-                    {
-                        oldWarehouse.Quantity += oldQuantity;
-                        _warehouseRepository.Update(oldWarehouse);
-                    }
-
-                    // Deduct new product stock
-                    var newWarehouse = await _warehouseRepository.GetAsync(w => w.ProductId == request.ProductId);
-                    if (newWarehouse != null)
-                    {
-                        newWarehouse.Quantity -= request.Quantity;
-                        _warehouseRepository.Update(newWarehouse);
-                    }
+                    oldWarehouseItem.Quantity += orderUpdate.Quantity;
+                    _warehouseRepository.Update(oldWarehouseItem);
                 }
 
-                orderToUpdate.CustomerId = request.CustomerId;
-                orderToUpdate.ProductId = request.ProductId;
-                orderToUpdate.Quantity = request.Quantity;
-                orderToUpdate.OrderNumber = request.OrderNumber;
+                var newWarehouseItem = await _warehouseRepository.GetAsync(w => w.ProductId == request.ProductId && w.IsDeleted == false);
+                if (newWarehouseItem == null) return new ErrorResult(Messages.ProductNotFoundInWarehouse);
+                if (!newWarehouseItem.IsAvailableForSale) return new ErrorResult(Messages.ProductNotReadyForSale);
+                if (newWarehouseItem.Quantity < request.Quantity) return new ErrorResult(Messages.ProductQuantityNotEnough);
 
-                _orderRepository.Update(orderToUpdate);
+                newWarehouseItem.Quantity -= request.Quantity;
+                _warehouseRepository.Update(newWarehouseItem);
+
+                orderUpdate.CustomerId = request.CustomerId;
+                orderUpdate.ProductId = request.ProductId;
+                orderUpdate.Quantity = request.Quantity;
+                orderUpdate.Status = request.Status;
+
+                _orderRepository.Update(orderUpdate);
                 await _orderRepository.SaveChangesAsync();
+                await _warehouseRepository.SaveChangesAsync();
+
                 return new SuccessResult(Messages.Updated);
             }
         }

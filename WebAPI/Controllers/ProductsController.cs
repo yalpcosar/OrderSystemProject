@@ -24,7 +24,7 @@ namespace WebAPI.Controllers
         /// <response code="200">Success</response>
         /// <response code="400">Bad Request</response>
         [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ProductWithStockDto>))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<ProductDetailDto>))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpGet]
         public async Task<IActionResult> GetList()
@@ -41,7 +41,7 @@ namespace WebAPI.Controllers
         /// <response code="200">Success</response>
         /// <response code="400">Bad Request</response>
         [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductWithStockDto))]
+        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProductDetailDto))]
         [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)

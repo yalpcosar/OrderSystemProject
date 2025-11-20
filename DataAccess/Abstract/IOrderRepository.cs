@@ -11,6 +11,7 @@ namespace DataAccess.Abstract
     {
         Task<IEnumerable<OrderDetailDto>> GetOrdersWithDetailsAsync();
         Task<IEnumerable<OrderDetailDto>> GetOrdersByDateRangeAsync(DateTime startDate, DateTime endDate);
+        Task<OrderDetailDto> GetOrderDetailsByIdAsync(int orderId);
     }
 }
 

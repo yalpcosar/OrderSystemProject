@@ -39,7 +39,7 @@ namespace Business.Handlers.Products.Commands
             [LogAspect(typeof(FileLogger))]
             public async Task<IResult> Handle(CreateProductCommand request, CancellationToken cancellationToken)
             {
-                var productIsExist = await _productRepository.GetAsync(p => p.Name == request.Name);
+                var productIsExist = await _productRepository.GetAsync(p => p.Name == request.Name && p.IsDeleted == false);
                 if(productIsExist == null)
                     return new ErrorResult(Messages.ProductAlreadyExists);
 

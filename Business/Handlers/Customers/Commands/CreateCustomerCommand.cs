@@ -37,7 +37,7 @@ namespace Business.Handlers.Customers.Commands
             [LogAspect(typeof(FileLogger))]
             public async Task<IResult> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
             {
-                var customerExists = await _customerRepository.GetAsync(c => c.CustomerCode == request.CustomerCode);
+                var customerExists = await _customerRepository.GetAsync(c => c.CustomerCode == request.CustomerCode && c.IsDeleted == false);
                 if (customerExists != null)
                     return new ErrorResult(Messages.CustomerCodeAlreadyExists);
                     

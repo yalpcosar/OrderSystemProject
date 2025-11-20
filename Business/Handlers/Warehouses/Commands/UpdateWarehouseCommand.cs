@@ -35,7 +35,7 @@ namespace Business.Handlers.Warehouses.Commands
             [LogAspect(typeof(FileLogger))]
             public async Task<IResult> Handle(UpdateWarehouseCommand request, CancellationToken cancellationToken)
             {
-                var warehouse = await _warehouseRepository.GetAsync(w => w.Id == request.Id);
+                var warehouse = await _warehouseRepository.GetAsync(w => w.Id == request.Id && w.IsDeleted == false);
 
                 if (warehouse == null)
                     return new ErrorResult(Messages.WarehouseNotFound);

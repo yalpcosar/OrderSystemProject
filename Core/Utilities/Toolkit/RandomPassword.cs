@@ -11,8 +11,7 @@ namespace Core.Utilities.Toolkit
             const string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*?_-";
             var chars = new char[length];
 
-            // DÜZELTME: Sınıf ismini tam (full path) olarak yazdık.
-            // Böylece alttaki metod ismiyle karışmaz.
+
             using (var rng = System.Security.Cryptography.RandomNumberGenerator.Create())
             {
                 var data = new byte[length];
@@ -29,7 +28,7 @@ namespace Core.Utilities.Toolkit
 
         public static int RandomNumberGenerator(int min = 100000, int max = 999999)
         {
-            // DÜZELTME: Burada da tam isim kullanıyoruz.
+
             using (var rng = System.Security.Cryptography.RandomNumberGenerator.Create())
             {
                 var data = new byte[4];

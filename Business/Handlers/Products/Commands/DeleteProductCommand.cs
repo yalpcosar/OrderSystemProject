@@ -39,7 +39,7 @@ namespace Business.Handlers.Products.Commands
             {
                 var product = await _productRepository.Query()
                             .Include(p => p.Warehouse)
-                            .FirstOrDefaultAsync(p => p.Id == request.Id);
+                            .FirstOrDefaultAsync(p => p.Id == request.Id && p.IsDeleted == false);
 
                 if (product == null)
                     return new ErrorResult(Messages.ProductNotFound);

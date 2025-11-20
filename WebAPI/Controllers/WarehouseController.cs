@@ -83,25 +83,6 @@ namespace WebAPI.Controllers
         }
 
         /// <summary>
-        /// Create new warehouse entry
-        /// </summary>
-        /// <remarks>Creates a new warehouse entry for a product. Requires Admin or CustomerRepresentative role.</remarks>
-        /// <param name="createWarehouse">Warehouse creation data</param>
-        /// <returns>Success message</returns>
-        /// <response code="200">Warehouse entry created successfully</response>
-        /// <response code="400">Bad Request - Validation errors or negative quantity</response>
-        [Authorize(Roles = "Administrator,CustomerRepresentative")]
-        [Consumes("application/json")]
-        [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpPost]
-        public async Task<IActionResult> Add([FromBody] CreateWarehouseCommand createWarehouse)
-        {
-            return GetResponseOnlyResultMessage(await Mediator.Send(createWarehouse));
-        }
-
-        /// <summary>
         /// Update warehouse entry
         /// </summary>
         /// <remarks>Updates warehouse stock levels and availability. Requires Admin or CustomerRepresentative role.</remarks>
@@ -118,25 +99,6 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> Update([FromBody] UpdateWarehouseCommand updateWarehouse)
         {
             return GetResponseOnlyResultMessage(await Mediator.Send(updateWarehouse));
-        }
-
-        /// <summary>
-        /// Delete warehouse entry
-        /// </summary>
-        /// <remarks>Soft deletes a warehouse entry. Requires Admin or CustomerRepresentative role.</remarks>
-        /// <param name="id">Warehouse ID</param>
-        /// <returns>Success message</returns>
-        /// <response code="200">Warehouse entry deleted successfully</response>
-        /// <response code="400">Bad Request</response>
-        [Authorize(Roles = "Administrator,CustomerRepresentative")]
-        [Consumes("application/json")]
-        [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> Delete([FromRoute] int id)
-        {
-            return GetResponseOnlyResultMessage(await Mediator.Send(new DeleteWarehouseCommand { Id = id }));
         }
     }
 }

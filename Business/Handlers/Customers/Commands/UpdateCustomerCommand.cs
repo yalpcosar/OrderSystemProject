@@ -37,7 +37,7 @@ namespace Business.Handlers.Customers.Commands
             [LogAspect(typeof(FileLogger))]
             public async Task<IResult> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
             {
-                var customer = await _customerRepository.GetAsync(c => c.Id == request.Id);
+                var customer = await _customerRepository.GetAsync(c => c.Id == request.Id && c.IsDeleted == false);
                 if (customer == null)
                     return new ErrorResult(Messages.CustomerNotFound);
             

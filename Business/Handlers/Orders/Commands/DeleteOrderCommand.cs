@@ -5,6 +5,7 @@ using Business.Constants;
 using Business.Handlers.Orders.ValidationRules;
 using Core.Aspects.Autofac.Caching;
 using Core.Aspects.Autofac.Logging;
+using Core.Aspects.Autofac.Transaction;
 using Core.Aspects.Autofac.Validation;
 using Core.CrossCuttingConcerns.Logging.Serilog.Loggers;
 using Core.Utilities.Results;
@@ -32,16 +33,16 @@ namespace Business.Handlers.Orders.Commands
             [ValidationAspect(typeof(DeleteOrderValidator), Priority = 2)]
             [CacheRemoveAspect()]
             [LogAspect(typeof(FileLogger))]
+            [TransactionScopeAspect]
             public async Task<IResult> Handle(DeleteOrderCommand request, CancellationToken cancellationToken)
             {
-                var orderToDelete = await _orderRepository.GetAsync(o => o.Id == request.Id);
+                var orderToDelete = await _orderRepository.GetAsync(o => o.Id == request.Id && o.IsDeleted == false);
 
                 if (orderToDelete == null)
                 {
                     return new ErrorResult(Messages.OrderNotFound);
                 }
 
-                // Restore warehouse stock when order is deleted
                 var warehouse = await _warehouseRepository.GetAsync(w => w.ProductId == orderToDelete.ProductId);
                 if (warehouse != null)
                 {
