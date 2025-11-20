@@ -1,21 +1,30 @@
 ﻿using System;
+using System.Security.Cryptography;
+using System.Text;
 
 namespace Core.Utilities.Toolkit
 {
     /// <summary>
-    /// One time password generator for mobile login etc.
+    /// Mobil giriş vb. için tek kullanımlık şifre üreteci.
     /// </summary>
     public static class RandomPassword
     {
         public static string CreateRandomPassword(int length = 14)
         {
-            var validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*?_-";
-            var random = new Random();
-
+            const string validChars = "ABCDEFGHJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*?_-";
             var chars = new char[length];
-            for (var i = 0; i < length; i++)
+
+            // DÜZELTME: Sınıf ismini tam (full path) olarak yazdık.
+            // Böylece alttaki metod ismiyle karışmaz.
+            using (var rng = System.Security.Cryptography.RandomNumberGenerator.Create())
             {
-                chars[i] = validChars[random.Next(0, validChars.Length)];
+                var data = new byte[length];
+                rng.GetBytes(data);
+
+                for (int i = 0; i < length; i++)
+                {
+                    chars[i] = validChars[data[i] % validChars.Length];
+                }
             }
 
             return new string(chars);
@@ -23,8 +32,18 @@ namespace Core.Utilities.Toolkit
 
         public static int RandomNumberGenerator(int min = 100000, int max = 999999)
         {
-            var random = new Random();
-            return random.Next(min, max);
+            // DÜZELTME: Burada da tam isim kullanıyoruz.
+            using (var rng = System.Security.Cryptography.RandomNumberGenerator.Create())
+            {
+                var data = new byte[4];
+                rng.GetBytes(data);
+
+                int generatedValue = Math.Abs(BitConverter.ToInt32(data, 0));
+                
+                int diff = max - min;
+                int mod = generatedValue % diff;
+                return min + mod;
+            }
         }
     }
 }
