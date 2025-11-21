@@ -14,6 +14,7 @@ namespace WebAPI.Controllers
     /// </summary>
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Administrator,CustomerRepresentative,User")]
     public class ProductsController : BaseApiController
     {
         /// <summary>
@@ -57,7 +58,6 @@ namespace WebAPI.Controllers
         /// <returns>Success message</returns>
         /// <response code="200">Product created successfully</response>
         /// <response code="400">Bad Request - Validation errors or duplicate product</response>
-        [Authorize(Roles = "Administrator,CustomerRepresentative,User")]
         [Consumes("application/json")]
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
@@ -76,7 +76,6 @@ namespace WebAPI.Controllers
         /// <returns>Success message</returns>
         /// <response code="200">Product updated successfully</response>
         /// <response code="400">Bad Request - Validation errors or duplicate product</response>
-        [Authorize(Roles = "Administrator,CustomerRepresentative,User")]
         [Consumes("application/json")]
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]
@@ -95,7 +94,6 @@ namespace WebAPI.Controllers
         /// <returns>Success message</returns>
         /// <response code="200">Product deleted successfully</response>
         /// <response code="400">Bad Request</response>
-        [Authorize(Roles = "Administrator,CustomerRepresentative,User")]
         [Consumes("application/json")]
         [Produces("application/json", "text/plain")]
         [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(string))]

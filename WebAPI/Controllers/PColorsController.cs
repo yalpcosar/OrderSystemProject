@@ -14,7 +14,7 @@ namespace WebAPI.Controllers
     /// </summary>
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
-    public class ColorsController : BaseApiController
+    public class PColorsController : BaseApiController
     {
         /// <summary>
         /// List all colors

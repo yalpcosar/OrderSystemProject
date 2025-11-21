@@ -15,6 +15,7 @@ namespace WebAPI.Controllers
     /// </summary>
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Administrator,CustomerRepresentative,User")]
     public class OrdersController : BaseApiController
     {
         /// <summary>
@@ -48,29 +49,6 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             return GetResponseOnlyResultData(await Mediator.Send(new GetOrderQuery { Id = id }));
-        }
-
-        /// <summary>
-        /// Get orders report by date range
-        /// </summary>
-        /// <remarks>Returns orders filtered by date range</remarks>
-        /// <param name="startDate">Start date (optional)</param>
-        /// <param name="endDate">End date (optional)</param>
-        /// <return>Orders Report</return>
-        /// <response code="200">Success</response>
-        /// <response code="400">Bad Request</response>
-        [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(IEnumerable<OrderDetailDto>))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpGet("report")]
-        public async Task<IActionResult> GetOrdersReport([FromQuery] DateTime? startDate, [FromQuery] DateTime? endDate)
-        {
-            var start = startDate ?? DateTime.UtcNow.AddMonths(-1);
-            var end = endDate ?? DateTime.UtcNow;
-
-            var orders = await Mediator.Send(new GetOrdersQuery());
-            
-            return GetResponseOnlyResultData(orders);
         }
 
         /// <summary>

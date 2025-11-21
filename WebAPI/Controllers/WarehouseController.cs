@@ -13,6 +13,7 @@ namespace WebAPI.Controllers
     /// </summary>
     [Route("api/v{version:apiVersion}/[controller]")]
     [ApiController]
+    [Authorize(Roles = "Administrator,CustomerRepresentative,User")]
     public class WarehouseController : BaseApiController
     {
         /// <summary>
@@ -29,40 +30,6 @@ namespace WebAPI.Controllers
         public async Task<IActionResult> GetWarehouseReport()
         {
             return GetResponseOnlyResultData(await Mediator.Send(new GetWarehousesQuery()));
-        }
-
-        /// <summary>
-        /// Check product availability
-        /// </summary>
-        /// <remarks>Checks if a product has sufficient stock available. All authenticated users can access.</remarks>
-        /// <param name="productId">Product ID</param>
-        /// <param name="requestedQuantity">Requested quantity (optional, defaults to 1)</param>
-        /// <return>Availability status</return>
-        /// <response code="200">Success with availability information</response>
-        /// <response code="400">Bad Request</response>
-        [Produces("application/json", "text/plain")]
-        [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(object))]
-        [ProducesResponseType(StatusCodes.Status400BadRequest, Type = typeof(string))]
-        [HttpGet("check-availability")]
-        public async Task<IActionResult> CheckAvailability([FromQuery] int productId, [FromQuery] int requestedQuantity = 1)
-        {
-            var warehouse = await Mediator.Send(new GetWarehouseQuery { ProductId = productId });
-            
-            if (!warehouse.Success)
-            {
-                return BadRequest(new { available = false, message = warehouse.Message });
-            }
-
-            var isAvailable = warehouse.Data.IsAvailableForSale && warehouse.Data.Quantity >= requestedQuantity;
-            
-            return Ok(new 
-            { 
-                available = isAvailable, 
-                currentStock = warehouse.Data.Quantity,
-                requestedQuantity = requestedQuantity,
-                productId = productId,
-                isAvailableForSale = warehouse.Data.IsAvailableForSale
-            });
         }
 
         /// <summary>
