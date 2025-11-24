@@ -1,7 +1,7 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
-import { AlertifyService } from './alertify.service';
+import { AlertifyService } from './Alertify.service';
 
 describe('Service: Alertify', () => {
   beforeEach(() => {
