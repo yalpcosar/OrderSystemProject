@@ -5,7 +5,7 @@ namespace Entities.Dtos
 {
     public class WarehouseItemDto: IDto
     {
-        public int WarehouseId { get; set; }
+        public int WarehouseId { get; set; } = 1;
         public int ProductId { get; set; }
         public string ProductName { get; set; }
         public string ColorName { get; set; }
