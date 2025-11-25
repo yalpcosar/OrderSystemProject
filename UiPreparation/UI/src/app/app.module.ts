@@ -20,6 +20,7 @@ import { OrderComponent } from './core/components/user/order/order.component';
 import { PcolorComponent } from './core/components/user/pcolor/pcolor.component';
 import { ProductComponent } from './core/components/user/product/product.component';
 import { WarehouseComponent } from './core/components/user/warehouse/warehouse.component';
+import { SizeEnumPipe } from './core/pipes/size-enum.pipe';
 
 
 // i18 kullanıclak ise aşağıdaki metod aktif edilecek
@@ -67,6 +68,7 @@ export function tokenGetter() {
     PcolorComponent,
     ProductComponent,
     WarehouseComponent,
+    SizeEnumPipe,
   ],
 
   providers: [

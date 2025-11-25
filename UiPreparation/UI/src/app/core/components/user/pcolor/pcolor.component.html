@@ -1,1 +1,73 @@
-<p>pcolor works!</p>
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Renk Yönetimi</h4>
+            <p class="card-category">Ürün renklerini buradan ekleyip düzenleyebilirsiniz.</p>
+          </div>
+          <div class="card-body">
+            
+            <form [formGroup]="pColorForm" (ngSubmit)="save()">
+              <div class="row">
+                <div class="col-md-5">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Renk Adı" formControlName="name" type="text">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-5">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Hex Kodu (Örn: #FFFFFF)" formControlName="hexCode" type="text">
+                  </mat-form-field>
+                </div>
+                <div class="col-md-2 text-center">
+                  <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="pColorForm.invalid">
+                    {{ isUpdate ? 'Güncelle' : 'Ekle' }}
+                  </button>
+                  <button *ngIf="isUpdate" mat-button type="button" (click)="clearForm()" class="btn btn-sm">İptal</button>
+                </div>
+              </div>
+            </form>
+
+            <div class="table-responsive mt-4">
+              <table class="table">
+                <thead class="text-primary">
+                  <th>ID</th>
+                  <th>Renk Adı</th>
+                  <th>Hex Kodu</th>
+                  <th>Renk Önizleme</th>
+                  <th>İşlemler</th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let color of pColorList">
+                    <td>{{ color.id }}</td>
+                    <td>{{ color.name }}</td>
+                    <td>{{ color.hexCode }}</td>
+                    <td>
+                      <div [style.background-color]="color.hexCode" 
+                           style="width: 24px; height: 24px; border: 1px solid #ccc; border-radius: 50%;">
+                      </div>
+                    </td>
+                    <td class="td-actions">
+                      <button mat-raised-button type="button" (click)="getDetail(color)" matTooltip="Düzenle" class="btn btn-primary btn-link btn-sm btn-just-icon">
+                        <i class="material-icons">edit</i>
+                      </button>
+                      <button mat-raised-button type="button" (click)="delete(color.id)" matTooltip="Sil" class="btn btn-danger btn-link btn-sm btn-just-icon">
+                        <i class="material-icons">close</i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+          <div class="card-footer">
+             <button mat-raised-button class="btn btn-default" (click)="closeDialog()">Kapat</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -7,7 +7,7 @@ import { PColor } from '../models/pcolor';
 @Injectable({
   providedIn: 'root'
 })
-export class PcolorService {
+export class PColorService {
 
   private apiUrl = environment.getApiUrl + '/pcolors/';
 
