@@ -1,1 +1,112 @@
-<p>product works!</p>
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        
+        <div class="card">
+          <div class="card-header card-header-danger">
+            <h4 class="card-title">Product Management</h4>
+            <p class="card-category">Add new products and manage inventory</p>
+          </div>
+
+          <div class="card-body">
+            
+            <form [formGroup]="productForm" (ngSubmit)="save()">
+              <div class="row">
+                
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Product Name" type="text" formControlName="name">
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-2">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Size</mat-label>
+                    <mat-select formControlName="size">
+                      <mat-option *ngFor="let size of sizeOptions" [value]="size">
+                        {{ size | sizeEnum }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-4 d-flex align-items-center">
+                  <mat-form-field class="example-full-width" style="flex: 1;">
+                    <mat-label>Color</mat-label>
+                    <mat-select formControlName="pColorId">
+                      <mat-option *ngFor="let color of pColorList" [value]="color.id">
+                        <span [style.color]="color.hexCode">● </span> {{ color.name }}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                  
+                  <button mat-mini-fab color="primary" type="button" (click)="openColorDialog()" 
+                          matTooltip="Manage Colors" class="ml-2">
+                    <i class="material-icons">add</i>
+                  </button>
+                </div>
+
+                <div class="col-md-2">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Quantity" type="number" formControlName="quantity">
+                  </mat-form-field>
+                </div>
+
+              </div>
+
+              <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="productForm.invalid">
+                {{ isUpdate ? 'Update Product' : 'Add Product' }}
+              </button>
+              <button *ngIf="isUpdate" mat-button (click)="clearForm()" type="button" class="btn btn-sm pull-right">Cancel</button>
+              <div class="clearfix"></div>
+            </form>
+
+            <hr>
+
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead class="text-primary">
+                  <th>ID</th>
+                  <th>Product Name</th>
+                  <th>Color</th>
+                  <th>Size</th>
+                  <th>Stock</th>
+                  <th>Status</th>
+                  <th class="text-right">Actions</th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of productList">
+                    <td>{{ item.productId }}</td>
+                    <td>{{ item.productName }}</td>
+                    <td>
+                      <span [style.color]="item.hexCode" style="font-size: 20px;">●</span> 
+                      {{ item.colorName }}
+                    </td>
+                    <td>{{ item.size | sizeEnum }}</td> <td>{{ item.quantity }}</td>
+                    <td>
+                      <span class="badge" [ngClass]="item.isReadyForSale ? 'badge-success' : 'badge-secondary'">
+                        {{ item.isReadyForSale ? 'Ready' : 'Not Ready' }}
+                      </span>
+                    </td>
+                    <td class="td-actions text-right">
+                      <button mat-raised-button type="button" (click)="updateProduct(item)" 
+                              class="btn btn-primary btn-link btn-sm btn-just-icon">
+                        <i class="material-icons">edit</i>
+                      </button>
+                      <button mat-raised-button type="button" (click)="deleteProduct(item.productId)" 
+                              class="btn btn-danger btn-link btn-sm btn-just-icon">
+                        <i class="material-icons">delete</i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

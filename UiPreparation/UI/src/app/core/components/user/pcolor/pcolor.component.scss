@@ -1,0 +1,12 @@
+.color-box {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%; // Yuvarlak olsun
+    border: 1px solid #ddd; // Hafif bir çerçeve, beyaz renkler belli olsun diye
+    box-shadow: 0 2px 5px rgba(0,0,0,0.2); // Hafif gölge
+}
+
+// Dialog içinde olduğumuz için marginleri biraz sıkılaştırabiliriz
+.card {
+    margin-bottom: 0; 
+}

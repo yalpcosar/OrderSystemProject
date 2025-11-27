@@ -1,1 +1,100 @@
-<p>order works!</p>
+<div class="main-content">
+  <div class="container-fluid">
+    <div class="row">
+      <div class="col-md-12">
+        
+        <div class="card">
+          <div class="card-header card-header-success">
+            <h4 class="card-title">Sipariş Yönetimi</h4>
+            <p class="card-category">Yeni sipariş oluşturun veya mevcutları yönetin</p>
+          </div>
+
+          <div class="card-body">
+            
+            <form [formGroup]="orderForm" (ngSubmit)="save()">
+              <div class="row">
+                
+                <div class="col-md-4">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Müşteri Seçiniz</mat-label>
+                    <mat-select formControlName="customerId">
+                      <mat-option *ngFor="let cust of customerList" [value]="cust.id">
+                        {{ cust.customerName }} ({{ cust.customerCode }})
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-5">
+                  <mat-form-field class="example-full-width">
+                    <mat-label>Ürün Seçiniz</mat-label>
+                    <mat-select formControlName="productId">
+                      <mat-option *ngFor="let prod of productList" [value]="prod.productId">
+                        {{ prod.productName }} - {{ prod.colorName }} - {{ prod.size | sizeEnum }}
+                        (Stok: {{ prod.quantity }})
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <input matInput type="number" placeholder="Adet" formControlName="quantity" min="1">
+                  </mat-form-field>
+                </div>
+
+              </div>
+
+              <button mat-raised-button type="submit" class="btn btn-success pull-right" [disabled]="orderForm.invalid">
+                {{ isUpdate ? 'Siparişi Güncelle' : 'Sipariş Oluştur' }}
+              </button>
+              <button *ngIf="isUpdate" mat-button (click)="clearForm()" type="button" class="btn btn-sm pull-right">İptal</button>
+              <div class="clearfix"></div>
+            </form>
+
+            <hr>
+
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead class="text-primary">
+                  <th>Sipariş No</th>
+                  <th>Tarih</th>
+                  <th>Müşteri</th>
+                  <th>Ürün Detayı</th>
+                  <th class="text-center">Adet</th>
+                  <th class="text-right">İşlemler</th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of orderList">
+                    <td>#{{ item.orderId }}</td>
+                    <td>{{ item.orderDate | date:'dd.MM.yyyy HH:mm' }}</td>
+                    <td>{{ item.customerName }}</td>
+                    <td>
+                      {{ item.productName }} <br>
+                      <small class="text-muted">
+                        {{ item.colorName }} - {{ item.size | sizeEnum }}
+                      </small>
+                    </td>
+                    <td class="text-center font-weight-bold">{{ item.quantity }}</td>
+                    
+                    <td class="td-actions text-right">
+                      <button mat-raised-button type="button" (click)="updateOrder(item)" 
+                              matTooltip="Düzenle" class="btn btn-primary btn-link btn-sm btn-just-icon">
+                        <i class="material-icons">edit</i>
+                      </button>
+                      <button mat-raised-button type="button" (click)="deleteOrder(item.orderId)" 
+                              matTooltip="Sil" class="btn btn-danger btn-link btn-sm btn-just-icon">
+                        <i class="material-icons">delete</i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

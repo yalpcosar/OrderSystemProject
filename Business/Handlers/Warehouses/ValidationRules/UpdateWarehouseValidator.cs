@@ -11,7 +11,7 @@ namespace Business.Handlers.Warehouses.ValidationRules
     {
         public UpdateWarehouseValidator()
         {
-           RuleFor(x => x.Id).NotEmpty();
+            RuleFor(x => x.Id).NotEmpty();
             RuleFor(x => x.Quantity).GreaterThanOrEqualTo(0).WithMessage(Messages.WarehouseQuantityCannotBeNegative);
         }
     }

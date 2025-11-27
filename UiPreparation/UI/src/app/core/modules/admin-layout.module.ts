@@ -27,6 +27,12 @@ import { LogDtoComponent } from '../components/admin/log/logDto.component';
 import { MatSortModule } from '@angular/material/sort';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { TranslationService } from '../services/Translation.service';
+import { ProductComponent } from '../components/user/product/product.component';
+import { CustomerComponent } from '../components/user/customer/customer.component';
+import { WarehouseComponent } from '../components/user/warehouse/warehouse.component';
+import { PcolorComponent } from '../components/user/pcolor/pcolor.component';
+import { SizeEnumPipe } from '../pipes/size-enum.pipe';
+import { OrderComponent } from '../components/user/order/order.component';
 
 
 // export function layoutHttpLoaderFactory(http: HttpClient) {
@@ -70,7 +76,13 @@ import { TranslationService } from '../services/Translation.service';
         LanguageComponent,
         TranslateComponent,
         OperationClaimComponent,
-        LogDtoComponent
+        LogDtoComponent,
+        ProductComponent,
+        OrderComponent,
+        CustomerComponent,
+        WarehouseComponent,
+        PcolorComponent,
+        SizeEnumPipe,
 
     ]
 })

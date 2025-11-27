@@ -8,6 +8,10 @@ import { TranslateComponent } from 'app/core/components/admin/translate/translat
 import { UserComponent } from 'app/core/components/admin/user/user.component';
 import { LoginGuard } from 'app/core/guards/login-guard';
 import { DashboardComponent } from '../../dashboard/dashboard.component';
+import { CustomerComponent } from 'app/core/components/user/customer/customer.component';
+import { OrderComponent } from 'app/core/components/user/order/order.component';
+import { ProductComponent } from 'app/core/components/user/product/product.component';
+import { WarehouseComponent } from 'app/core/components/user/warehouse/warehouse.component';
 
 
 
@@ -15,13 +19,17 @@ import { DashboardComponent } from '../../dashboard/dashboard.component';
 
 export const AdminLayoutRoutes: Routes = [
 
+    { path: 'login',          component: LoginComponent },
     { path: 'dashboard',      component: DashboardComponent,canActivate:[LoginGuard] }, 
     { path: 'user',           component: UserComponent, canActivate:[LoginGuard] },
     { path: 'group',          component: GroupComponent, canActivate:[LoginGuard] },
-    { path: 'login',          component: LoginComponent },
     { path: 'language',       component: LanguageComponent,canActivate:[LoginGuard]},
     { path: 'translate',      component: TranslateComponent,canActivate:[LoginGuard]},
     { path: 'operationclaim', component: OperationClaimComponent,canActivate:[LoginGuard]},
-    { path: 'log',            component: LogDtoComponent,canActivate:[LoginGuard]}
+    { path: 'log',            component: LogDtoComponent,canActivate:[LoginGuard]},
+    { path: 'product',        component: ProductComponent, canActivate: [LoginGuard] },
+    { path: 'customer',       component: CustomerComponent, canActivate: [LoginGuard] },
+    { path: 'warehouse',      component: WarehouseComponent, canActivate: [LoginGuard] },
+    { path: 'order',          component: OrderComponent, canActivate: [LoginGuard] },
     
 ];

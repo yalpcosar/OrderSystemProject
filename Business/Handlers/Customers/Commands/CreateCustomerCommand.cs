@@ -44,7 +44,7 @@ namespace Business.Handlers.Customers.Commands
                 var customer = new Customer
                 {
                     CustomerName = request.CustomerName,
-                    CustomerCode = request.CustomerCode,
+                    // CustomerCode = request.CustomerCode,
                     Address = request.Address,
                     PhoneNumber = request.PhoneNumber,
                     Email = request.Email

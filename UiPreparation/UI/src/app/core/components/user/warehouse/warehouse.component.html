@@ -1,1 +1,106 @@
-<p>warehouse works!</p>
+<div class="main-content">
+  <div class="container-fluid">
+    
+    <div class="row" *ngIf="selectedItem">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-warning">
+            <h4 class="card-title">Stok Güncelleme</h4>
+            <p class="card-category">Seçilen ürünün stok ve satış durumunu düzenleyin</p>
+          </div>
+          <div class="card-body">
+            <form [formGroup]="warehouseForm" (ngSubmit)="save()">
+              <div class="row align-items-center">
+                
+                <div class="col-md-5">
+                  <mat-form-field class="example-full-width">
+                    <input matInput placeholder="Seçili Ürün" formControlName="productInfo">
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-3">
+                  <mat-form-field class="example-full-width">
+                    <input matInput type="number" placeholder="Depo Miktarı" formControlName="quantity">
+                  </mat-form-field>
+                </div>
+
+                <div class="col-md-2 text-center">
+                  <mat-checkbox formControlName="isAvailableForSale" color="primary">
+                    Satışa Hazır
+                  </mat-checkbox>
+                </div>
+
+                <div class="col-md-2 text-right">
+                  <button mat-raised-button type="submit" class="btn btn-warning pull-right">Kaydet</button>
+                  <button mat-button type="button" (click)="cancel()" class="btn btn-sm">İptal</button>
+                </div>
+
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12">
+        <div class="card">
+          <div class="card-header card-header-primary">
+            <h4 class="card-title">Depo Raporu</h4>
+            <p class="card-category">Mevcut ürünlerin stok ve durum listesi</p>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table class="table table-hover">
+                <thead class="text-primary">
+                  <th>Ürün ID</th>
+                  <th>Ürün Adı</th>
+                  <th>Rengi</th>
+                  <th>Beden</th> <th class="text-center">Depo Miktarı</th>
+                  <th class="text-center">Satış Durumu</th>
+                  <th class="text-right">İşlemler</th>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of warehouseList" [class.table-danger]="item.quantity === 0">
+                    
+                    <td>{{ item.productId }}</td>
+                    
+                    <td class="font-weight-bold">{{ item.productName }}</td>
+                    
+                    <td>
+                      <span *ngIf="item.colorHexCode" [style.color]="item.colorHexCode" style="font-size: 18px;">● </span>
+                      {{ item.colorName }}
+                    </td>
+
+                    <td>{{ item.size | sizeEnum }}</td>
+
+                    <td class="text-center">
+                       <span class="badge" [ngClass]="item.quantity > 0 ? 'badge-info' : 'badge-danger'">
+                         {{ item.quantity }} Adet
+                       </span>
+                    </td>
+                    
+                    <td class="text-center">
+                      <span class="badge" 
+                            [ngClass]="item.isAvailableForSale ? 'badge-success' : 'badge-secondary'">
+                        {{ item.isAvailableForSale ? 'Evet (Satışta)' : 'Hayır (Kapalı)' }}
+                      </span>
+                    </td>
+
+                    <td class="td-actions text-right">
+                      <button mat-raised-button type="button" (click)="editStock(item)" 
+                              matTooltip="Düzenle" class="btn btn-primary btn-link btn-sm btn-just-icon">
+                        <i class="material-icons">edit</i>
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>

@@ -19,7 +19,11 @@ export const ADMINROUTES: RouteInfo[] = [
   { path: '/operationclaim', title: 'OperationClaim', icon:'local_police', class: '', claim:"GetOperationClaimsQuery"},
   { path: '/language', title: 'Languages', icon:'language', class: '', claim:"GetLanguagesQuery" },
   { path: '/translate', title: 'TranslateWords', icon: 'translate', class: '', claim: "GetTranslatesQuery" },
-  { path: '/log', title: 'Logs', icon: 'update', class: '', claim: "GetLogDtoQuery" }
+  { path: '/log', title: 'Logs', icon: 'update', class: '', claim: "GetLogDtoQuery" },
+  { path: '/product', title: 'Products', icon: 'inventory_2', class: '', claim: "GetProductsQuery" },
+  { path: '/customer', title: 'Customers', icon: 'people', class: '' , claim: "GetCustomersQuery"},
+  { path: '/warehouse', title: 'Warehouse Report', icon: 'warehouse', class: '', claim: "GetWarehousesQuery" },
+  { path: '/order', title: 'Orders', icon: 'shopping_cart', class: '' , claim: "GetOrdersQuery"},
 ];
 
 export const USERROUTES: RouteInfo[] = [ 

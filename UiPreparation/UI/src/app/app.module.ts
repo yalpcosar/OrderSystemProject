@@ -15,12 +15,6 @@ import { LoginGuard } from './core/guards/login-guard';
 import { AuthInterceptorService } from './core/interceptors/auth-interceptor.service';
 import { HttpEntityRepositoryService } from './core/services/http-entity-repository.service';
 import { TranslationService } from './core/services/Translation.service';
-import { CustomerComponent } from './core/components/user/customer/customer.component';
-import { OrderComponent } from './core/components/user/order/order.component';
-import { PcolorComponent } from './core/components/user/pcolor/pcolor.component';
-import { ProductComponent } from './core/components/user/product/product.component';
-import { WarehouseComponent } from './core/components/user/warehouse/warehouse.component';
-import { SizeEnumPipe } from './core/pipes/size-enum.pipe';
 
 
 // i18 kullanıclak ise aşağıdaki metod aktif edilecek
@@ -63,12 +57,6 @@ export function tokenGetter() {
   declarations: [
     AppComponent,
     AdminLayoutComponent,
-    CustomerComponent,
-    OrderComponent,
-    PcolorComponent,
-    ProductComponent,
-    WarehouseComponent,
-    SizeEnumPipe,
   ],
 
   providers: [

@@ -46,7 +46,13 @@ export class GroupComponent implements AfterViewInit, OnInit {
   groupId:number;
 Filter: any;
 
-  constructor(private groupService:GroupService, private lookupService:LookUpService,private alertifyService:AlertifyService,private formBuilder: FormBuilder, private authService:AuthService) { }
+  constructor(
+    private groupService:GroupService,
+     private lookupService:LookUpService,
+     private alertifyService:AlertifyService,
+     private formBuilder: FormBuilder,
+     private authService:AuthService
+    ) { }
 
   
   ngAfterViewInit(): void {

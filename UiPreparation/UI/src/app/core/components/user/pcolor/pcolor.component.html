@@ -2,70 +2,83 @@
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
+        
         <div class="card">
+          
           <div class="card-header card-header-danger">
-            <h4 class="card-title">Renk Yönetimi</h4>
-            <p class="card-category">Ürün renklerini buradan ekleyip düzenleyebilirsiniz.</p>
+            <h4 class="card-title">Color Management</h4>
+            <p class="card-category">Manage product colors definitions</p>
           </div>
+
           <div class="card-body">
-            
+
             <form [formGroup]="pColorForm" (ngSubmit)="save()">
               <div class="row">
+                
                 <div class="col-md-5">
                   <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Renk Adı" formControlName="name" type="text">
+                    <input matInput placeholder="Color Name (e.g. Metallic Blue)" type="text" formControlName="name">
                   </mat-form-field>
                 </div>
-                <div class="col-md-5">
+
+                <div class="col-md-4">
                   <mat-form-field class="example-full-width">
-                    <input matInput placeholder="Hex Kodu (Örn: #FFFFFF)" formControlName="hexCode" type="text">
+                    <input matInput type="color" formControlName="hexCode" style="cursor: pointer; height: 40px;">
+                    <span matSuffix>Pick Color</span>
                   </mat-form-field>
                 </div>
-                <div class="col-md-2 text-center">
+                
+                <div class="col-md-1 d-flex align-items-center">
+                    <small>{{ pColorForm.get('hexCode').value }}</small>
+                 </div>
+
+                <div class="col-md-2 text-right">
                   <button mat-raised-button type="submit" class="btn btn-danger pull-right" [disabled]="pColorForm.invalid">
-                    {{ isUpdate ? 'Güncelle' : 'Ekle' }}
+                    {{ isUpdate ? 'Update' : 'Add' }}
                   </button>
-                  <button *ngIf="isUpdate" mat-button type="button" (click)="clearForm()" class="btn btn-sm">İptal</button>
+                  <button *ngIf="isUpdate" mat-button (click)="clearForm()" type="button" class="btn btn-sm">Cancel</button>
                 </div>
+
               </div>
             </form>
-
-            <div class="table-responsive mt-4">
-              <table class="table">
+            <div class="clearfix"></div>
+            <hr> <div class="table-responsive">
+              <table class="table table-hover">
                 <thead class="text-primary">
                   <th>ID</th>
-                  <th>Renk Adı</th>
-                  <th>Hex Kodu</th>
-                  <th>Renk Önizleme</th>
-                  <th>İşlemler</th>
+                  <th>Name</th>
+                  <th>Hex Code</th>
+                  <th>Preview</th>
+                  <th class="text-right">Actions</th>
                 </thead>
                 <tbody>
-                  <tr *ngFor="let color of pColorList">
-                    <td>{{ color.id }}</td>
-                    <td>{{ color.name }}</td>
-                    <td>{{ color.hexCode }}</td>
+                  <tr *ngFor="let item of pColorList">
+                    <td>{{ item.id }}</td>
+                    <td>{{ item.name }}</td>
+                    <td>{{ item.hexCode }}</td>
                     <td>
-                      <div [style.background-color]="color.hexCode" 
-                           style="width: 24px; height: 24px; border: 1px solid #ccc; border-radius: 50%;">
-                      </div>
+                      <div class="color-box" [style.background-color]="item.hexCode"></div>
                     </td>
-                    <td class="td-actions">
-                      <button mat-raised-button type="button" (click)="getDetail(color)" matTooltip="Düzenle" class="btn btn-primary btn-link btn-sm btn-just-icon">
+                    <td class="td-actions text-right">
+                      <button mat-raised-button type="button" (click)="updatePColor(item)" 
+                              matTooltip="Edit Color" class="btn btn-primary btn-link btn-sm btn-just-icon">
                         <i class="material-icons">edit</i>
                       </button>
-                      <button mat-raised-button type="button" (click)="delete(color.id)" matTooltip="Sil" class="btn btn-danger btn-link btn-sm btn-just-icon">
-                        <i class="material-icons">close</i>
+                      <button mat-raised-button type="button" (click)="deletePColor(item.id)" 
+                              matTooltip="Delete Color" class="btn btn-danger btn-link btn-sm btn-just-icon">
+                        <i class="material-icons">delete</i>
                       </button>
                     </td>
                   </tr>
                 </tbody>
               </table>
             </div>
-
-          </div>
+            </div>
+          
           <div class="card-footer">
-             <button mat-raised-button class="btn btn-default" (click)="closeDialog()">Kapat</button>
+             <button mat-stroked-button (click)="closeDialog()">Close</button>
           </div>
+
         </div>
       </div>
     </div>
