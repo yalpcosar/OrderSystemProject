@@ -84,7 +84,8 @@ import { OrderComponent } from '../components/user/order/order.component';
         PcolorComponent,
         SizeEnumPipe,
 
-    ]
+    ],
+
 })
 
 export class AdminLayoutModule { }
